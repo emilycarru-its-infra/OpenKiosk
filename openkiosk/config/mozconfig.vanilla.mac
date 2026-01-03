@@ -1,0 +1,26 @@
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../opt-vanila-@CONFIG_GUESS@
+
+mk_add_options MOZ_MAKE_FLAGS="-s -j8"
+
+ac_add_options --enable-update-channel=release
+ac_add_options --enable-official-branding
+ac_add_options --enable-js-shell
+
+# DISABLE CRASH REPORTER
+ac_add_options --disable-crashreporter
+
+# SPEEDS UP BUILD TIME
+ac_add_options --disable-tests
+
+ac_add_options --with-macos-sdk=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+
+# x86_64
+ac_add_options --target=x86_64-apple-darwin
+
+export MOZILLA_OFFICIAL=1
+export BUILDING_RELEASE=1
+export MOZ_PACKAGE_JSSHELL=1
+
+# Disable Telemetry
+ac_add_options MOZ_TELEMETRY_REPORTING=
+

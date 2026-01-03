@@ -1,0 +1,111 @@
+<!ENTITY ok.homepage.description                 "(V&#230;r sikker p&#229; at du ikke benytter en viderstillings-URL for at sessions-genstart fungerer korrekt.)">
+<!ENTITY ok.label                                "OpenKiosk">
+<!ENTITY ok.screens.label                        "Sk&#230;rme">
+<!ENTITY ok.filters.label                        "Filtre">
+<!ENTITY ok.session.label                        "Sessioner">
+<!ENTITY ok.customize.label                      "Brugerdefin&#233;r">
+<!ENTITY ok.admin.label                          "Admin">
+<!ENTITY ok.about.label                          "Om">
+<!ENTITY ok.attract.label                        "Opm&#230;rksomhedssk&#230;rm">
+<!ENTITY ok.attract.enable.label                 "Aktiv&#233;r opm&#230;rksomhedssk&#230;rm">
+<!ENTITY ok.attract.description                  "N&#229;r aktiveret vil denne indstilling overstyre startsiden og loade ved opstart og sessions-genstart. Adressen, indstastet herover, vil loade i fuldsk&#230;rmsmode. N&#229;r brugeren klikker p&#229; et link vil v&#230;rkt&#248;jslinien blive synlig.">
+<!ENTITY ok.full.label                           "Fuldsk&#230;rm">
+<!ENTITY ok.full.enable.label                    "Aktiv&#233;r fuldsk&#230;rm">
+<!ENTITY ok.full.tabs.enable.label               "Aktiv&#233;r faner">
+<!ENTITY ok.full.description                     "N&#229;r aktiveret vil OpenKiosk altid blive vist i fuldsk&#230;rm uden v&#230;rkt&#248;jslinier.">
+<!ENTITY ok.redirect.label                       "Viderstillingssk&#230;rm">
+<!ENTITY ok.redirect.enable.label                "Aktiv&#233;r viderstillingssk&#230;rm">
+<!ENTITY ok.redirect.description                 "N&#229;r aktiveret vil denne side blive indl&#230;st n&#229;r en blokeret side opst&#229;r.">
+<!ENTITY ok.url.filters.label                    "Filtr&#233;r URLs">
+<!ENTITY ok.url.filters.enable.label             "Aktiv&#233;r URL filtrer">
+<!ENTITY ok.whitelist.label                      "Whitelist">
+<!ENTITY ok.blacklist.label                      "Blacklist">
+<!ENTITY ok.filters.description                  "Hvis du aktiverer filtre, vil reglerne her afg&#248;re hvilke URLer der er godkendt og blokerede. N&#229;r du redigerer dette felt vil en gem-knap komme til syne. Alternativt kan du v&#230;lge at indl&#230;se en eksisterende filter-fil.">
+<!ENTITY ok.filters.warn.description             "BEM&#198;RK: URL-filtre vil ikke blokere reklamer. Det er st&#230;rkt anbefalet at du installerer Add-Block-Plus fra Add-ons sektionen.">
+<!ENTITY ok.filters.button                       "V&#230;lg...">
+<!ENTITY ok.javascript.label                     "Aktiv&#233;r Javascript">
+<!ENTITY ok.javascript.enable.label              "Hvis ej valgt, ville denne indstilling helt deaktivere javascript og overstyre ethvert filter defineret foroven.">
+<!ENTITY ok.protocols.enable.label               "Aktiv&#233;r netv&#230;rksprotokolfiltre">
+<!ENTITY ok.protocol.about.label                 "about:">
+<!ENTITY ok.protocol.blob.label                  "blob:">
+<!ENTITY ok.protocol.data.label                  "data:">
+<!ENTITY ok.protocol.email.label                 "mailto:">
+<!ENTITY ok.protocol.file.label                  "file:">
+<!ENTITY ok.protocol.ftp.label                   "ftp:">
+<!ENTITY ok.protocol.res.label                   "resource:">
+<!ENTITY ok.protocol.sms.label                   "sms:">
+<!ENTITY ok.protocol.tel.label                   "tel:">
+<!ENTITY ok.protocol.viewsource.label            "view-source:">
+<!ENTITY ok.protocol.javascript.label            "javascript:">
+<!ENTITY ok.session.reset.label                  "Nulstil session">
+<!ENTITY ok.session.inactive.label               "S&#230;t terminal inaktiv">
+<!ENTITY ok.session.after.label                  "Nulstil efter">
+<!ENTITY ok.session.min.label                    "minutter og">
+<!ENTITY ok.session.sec.label                    "sekunder">
+<!ENTITY ok.session.warn.label                   "Aktiv&#233;r nedt&#230;lling">
+<!ENTITY ok.session.warn.manual.label            "Aktiv&#233;r nedt&#230;lling ved manuel nulstilling">
+<!ENTITY ok.session.countdown.label              "Hvis nedt&#230;lling i  ">
+<!ENTITY ok.session.cache.label                  "Cache">
+<!ENTITY ok.session.disk.enable.label            "Aktiv&#233;r disk cache">
+<!ENTITY ok.session.disk.label                   "Aktivering af disk cache tillader brug af cachede elementer p&#229; tv&#230;rs af sessioner.">
+<!ENTITY ok.session.history.enable.label         "Bevar sessionshistorik">
+<!ENTITY ok.session.history.label                "Aktivering af sessionshistorik tillader brug af tilbage/frem, bes&#248;gte adresser og adressehistorik at blive bevaret p&#229; tv&#230;rs af sessioner.">
+<!ENTITY ok.session.cookies.enable.label         "Bevar session cookies">
+<!ENTITY ok.session.cookies.label                "Aktivering af cookies cache tillader brug af cachede elementer p&#229; tv&#230;rs af sessioner.">
+<!ENTITY ok.session.aup.label                    "Politik for acceptabelt brug (AUP)">
+<!ENTITY ok.session.aup.enable.label             "Aktiv&#233;r AUP">
+<!ENTITY ok.session.aup.description              "Ved aktivering af dette vil en bruger bliver bedt om at acceptere termer ved hver session. N&#229;r accepteret vil brugeren ikke bliver spurgt igen inden for samme session. Hvis afvist vil bruger bliver spurgt hver gang for at tilg&#229; en side som ikke er start-, opm&#230;rksomheds- eller viderstillingssiden.">
+<!ENTITY ok.session.aup.url.description          "AUP URL">
+<!ENTITY ok.osk.label                            "OSK">
+<!ENTITY ok.osk.enable.label                     "On Screen Keyboard">
+<!ENTITY ok.osk.description                      "Hvis du aktiverer OSK vil du skulle deaktivere 'touchscreen edge swipes' i Windows 10.">
+<!ENTITY ok.osk.moreinfo.button.label            "Mere info">
+<!ENTITY ok.tabs.label                           "Fanebrowsing">
+<!ENTITY ok.tabs.enable.label                    "Aktiv&#233;r fanebrowsing">
+<!ENTITY ok.custom.pt.label                      "Personlig v&#230;rkt&#248;jslinie">
+<!ENTITY ok.custom.pt.enable.label               "Aktiv&#233;r personlig v&#230;rkt&#248;jslinie">
+<!ENTITY ok.custom.pt.context.label              "Favoritter genvejsmenu">
+<!ENTITY ok.custom.nb.label                      "Notifikationsboks">
+<!ENTITY ok.custom.nb.large.enable.label         "Aktiv&#233;r stor notifikationsboks">
+<!ENTITY ok.custom.pt.bookmarks.enable.label     "Tillad at favoritter forbliver p&#229; tv&#230;rs af sessioner">
+<!ENTITY ok.custom.urlbar.label                  "Værktøjslinje">
+<!ENTITY ok.custom.urlbar.enable.label           "Aktiver URL v&#230;rkt&#248;jslinie">
+<!ENTITY ok.custom.urlbar.context.enable.label   "Aktiver URL-kontekstmenu">
+<!ENTITY ok.custom.toolbar.context.enable.label  "Værktøjslinje kontekstmenu">
+<!ENTITY ok.custom.tb.label                      "Hovedv&#230;rkt&#248;jslinien">
+<!ENTITY ok.custom.zoom.label                    "Hoved-zoom niveau">
+<!ENTITY ok.custom.media.label                   "Medier">
+<!ENTITY ok.custom.media.autoplay.enable.label   "Aktiv&#233;r medieafspilning">
+<!ENTITY ok.custom.tb.button.label               "Brugerdefineret v&#230;rkt&#248;jslinie">
+<!ENTITY ok.custom.context.label                 "Genvejsmenu">
+<!ENTITY ok.custom.context.menu.enable.label     "Aktiv&#233;r genvejsmenu">
+<!ENTITY ok.custom.context.enable.label          "Aktiv&#233;r s&#248;g i genvejsmenuen">
+<!ENTITY ok.custom.quit.label                    "Afslut">
+<!ENTITY ok.custom.quit.pass.enable.label        "Aktiv&#233;r luk-knapspassword">
+<!ENTITY ok.custom.status.label                  "Status">
+<!ENTITY ok.custom.status.enable.label           "Aktiver linkstatustekst">
+<!ENTITY ok.custom.selection.label               "Udvælgelse">
+<!ENTITY ok.custom.selection.enable.label        "Aktiver valg på websider">
+<!ENTITY ok.admin.controls.label                 "Password">
+<!ENTITY ok.admin.password.label                 "Indtast et nyt password">
+<!ENTITY ok.admin.button.reset.label             "Nulstil">
+<!ENTITY ok.admin.print.label                    "Print">
+<!ENTITY ok.admin.print.silent.enable.label      "Aktiv&#233;r diskret print.">
+<!ENTITY ok.admin.print.web.enable.label         "Tillad udskrivning fra hjemmeside.">
+<!ENTITY ok.admin.navkeys.label                  "Keyboardgenveje">
+<!ENTITY ok.admin.navkeys.enable.label           "Aktiv&#233;r tilbage/frem navigationsknapper.">
+<!ENTITY ok.admin.settingskeys.enable.label      "Aktiv&#233;r indstillinger-knap.">
+<!ENTITY ok.admin.multimonitor.label             "Flere sk&#230;rme">
+<!ENTITY ok.admin.multimonitor.enable.label      "Tillad at andre sk&#230;rme kan v&#230;re aktive mens OpenKisk er brugervendt (mindre sikkert)."> 
+<!ENTITY ok.admin.externalapps.label             "Eksterne applikationer">
+<!ENTITY ok.admin.externalapps.enable.label      "Tillad eksterne applikationer at åbne (usikre)."> 
+<!ENTITY ok.admin.exit.label                     "Aflut">
+<!ENTITY ok.admin.reset.enable.label             "Start em ny session n&#229;r administration afsluttes.">
+<!ENTITY ok.admin.download.label                 "Downloads">
+<!ENTITY ok.admin.download.enable.label          "Tillad download-vinduet bliver vist.">
+<!ENTITY ok.admin.pdf.download.enable.label      "Tillad at gemme PDF direkte til 'downloads'-biblioteket for efterf&#248;lgende at blive vist til brugeren.">
+<!ENTITY ok.admin.upload.label                   "Filupload">
+<!ENTITY ok.admin.upload.enable.label            "Atkiv&#233;r filupload form kontrol p&#229; websites.">
+
+<!ENTITY ok.shutdown.button                      "Afslut OpenKiosk">
+<!ENTITY ok.exit.button                          "Luk indstillinger">

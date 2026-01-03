@@ -1,0 +1,113 @@
+
+<!ENTITY ok.homepage.description                 "(Assurez-vous que vous n'utilisez pas d'URL de redirection pour que la réinitialisation de session fonctionne correctement.)">
+<!ENTITY ok.label                                "OpenKiosk">
+<!ENTITY ok.screens.label                        "Écrans">
+<!ENTITY ok.filters.label                        "Filtres">
+<!ENTITY ok.session.label                        "Session">
+<!ENTITY ok.customize.label                      "Personnaliser">
+<!ENTITY ok.admin.label                          "Admin">
+<!ENTITY ok.about.label                          "À propos de">
+<!ENTITY ok.attract.label                        "Écran d'attraction">
+<!ENTITY ok.attract.enable.label                 "Activer l'écran d'attraction">
+<!ENTITY ok.attract.description                  "Lorsqu'il est activé, ce paramètre remplace la page d'accueil et se charge au démarrage et à la réinitialisation de la session. L'URL saisie ci-dessus sera chargée en mode plein écran. Lorsque l'utilisateur clique sur un lien, la barre d'outils apparaît.">
+<!ENTITY ok.full.label                           "Plein écran">
+<!ENTITY ok.full.enable.label                    "Activer le plein écran">
+<!ENTITY ok.full.tabs.enable.label               "Activer les onglets">
+<!ENTITY ok.full.description                     "Lorsqu'il est activé, OpenKiosk sera toujours affiché en plein écran sans barre d'outils.">
+<!ENTITY ok.redirect.label                       "Écran de redirection">
+<!ENTITY ok.redirect.enable.label                "Activer l'écran de redirection">
+<!ENTITY ok.redirect.description                 "Lorsqu'elle est activée, cette page sera chargée lorsqu'une page bloquée est rencontrée.">
+<!ENTITY ok.url.filters.label                    "Filtrer les URL">
+<!ENTITY ok.url.filters.enable.label             "Activer les URL de filtrage">
+<!ENTITY ok.whitelist.label                      "Liste blanche">
+<!ENTITY ok.blacklist.label                      "Liste noire">
+<!ENTITY ok.filters.description                  "Si vous activez les filtres, les règles ici seront utilisées pour déterminer quelles URL sont autorisées ou bloquées. Une fois que vous avez modifié ce champ, un bouton de sauvegarde apparaîtra. Ou vous pouvez choisir de charger un fichier de filtres existant">
+<!ENTITY ok.filters.warn.description             "REMARQUE : les filtres d'URL ne bloqueront pas les publicités. Il est fortement recommandé d'installer Add-Block-Plus à partir de la section Add-ons">
+<!ENTITY ok.filters.button                       "Choisir...">
+<!ENTITY ok.javascript.label                     "Activer Javascript">
+<!ENTITY ok.javascript.enable.label              "S'il n'est pas coché, ce paramètre désactivera complètement le javascript en remplaçant tout javascript spécifié dans les filtres ci-dessus">
+<!ENTITY ok.protocols.enable.label               "Activer les filtres de protocole réseau">
+<!ENTITY ok.protocol.about.label                 "about:">
+<!ENTITY ok.protocol.blob.label                  "blob:">
+<!ENTITY ok.protocol.data.label                  "data:">
+<!ENTITY ok.protocol.email.label                 "mailto:">
+<!ENTITY ok.protocol.file.label                  "file:">
+<!ENTITY ok.protocol.ftp.label                   "ftp:">
+<!ENTITY ok.protocol.res.label                   "resource:">
+<!ENTITY ok.protocol.sms.label                   "sms:">
+<!ENTITY ok.protocol.tel.label                   "tel:">
+<!ENTITY ok.protocol.viewsource.label            "view-source:">
+<!ENTITY ok.protocol.javascript.label            "javascript:">
+<!ENTITY ok.session.reset.label                  "Réinitialiser la session">
+<!ENTITY ok.session.inactive.label               "Définir le terminal inactif">
+<!ENTITY ok.session.after.label                  "Remise à zéro après">
+<!ENTITY ok.session.min.label                    "minutes et">
+<!ENTITY ok.session.sec.label                    "secondes">
+<!ENTITY ok.session.warn.label                   "Activer le compte à rebours">
+<!ENTITY ok.session.warn.manual.label            "Activer le compte à rebours lors de la réinitialisation manuelle">
+<!ENTITY ok.session.countdown.label              "Afficher le compte à rebours pour ">
+<!ENTITY ok.session.cache.label                  "Cache">
+<!ENTITY ok.session.disk.enable.label            "Activer le cache disque">
+<!ENTITY ok.session.disk.label                   "L'activation du cache disque permet aux éléments mis en cache de persister d'une session à l'autre.">
+<!ENTITY ok.session.history.enable.label         "Conserver l'historique des sessions">
+<!ENTITY ok.session.history.label                "L'activation de l'historique de session permet aux liens précédents/suivants, aux liens visités et à l'historique de la barre d'URL de persister d'une session à l'autre">
+<!ENTITY ok.session.cookies.enable.label         "Conserver les cookies de session">
+<!ENTITY ok.session.cookies.label                "L'activation des cookies de session permet aux cookies de site Web de persister d'une session à l'autre.">
+<!ENTITY ok.session.aup.label                    "Politique d'utilisation acceptable (PUA)">
+<!ENTITY ok.session.aup.enable.label             "Activer la PUA">
+<!ENTITY ok.session.aup.description              "L'activation de cette fonctionnalité invite l'utilisateur à chaque session à accepter votre page de conditions d'utilisation. Une fois accepté, l'utilisateur ne sera plus sollicité pendant la session. En cas de refus, ils seront invités à chaque fois à accéder à une page Web autre que les pages d'accueil, d'attraction ou de redirection.">
+<!ENTITY ok.session.aup.url.description          "PUA URL">
+<!ENTITY ok.osk.label                            "OSK">
+<!ENTITY ok.osk.enable.label                     "Sur le clavier de l'écran">
+<!ENTITY ok.osk.description                      "Si vous activez OSK, vous devrez désactiver les balayages sur les bords de l'écran tactile dans Windows 10.">
+<!ENTITY ok.osk.moreinfo.button.label            "Plus d'informations">
+<!ENTITY ok.tabs.label                           "Navigation par onglets">
+<!ENTITY ok.tabs.enable.label                    "Activer la navigation par onglets">
+<!ENTITY ok.custom.pt.label                      "Barre d'outils personnelle">
+<!ENTITY ok.custom.pt.enable.label               "Activer la barre d'outils personnelle">
+<!ENTITY ok.custom.pt.context.label              "Menu contextuel des signets">
+<!ENTITY ok.custom.nb.label                      "Boîte de notification">
+<!ENTITY ok.custom.nb.large.enable.label         "Activer la grande boîte de notification">
+<!ENTITY ok.custom.pt.bookmarks.enable.label     "Autoriser les signets à persister d'une session à l'autre">
+<!ENTITY ok.custom.urlbar.label                  "Barre d'outils">
+<!ENTITY ok.custom.urlbar.enable.label           "Activer la barre d'outils URL">
+<!ENTITY ok.custom.urlbar.context.enable.label   "Activer le menu contextuel de l'URL">
+<!ENTITY ok.custom.toolbar.context.enable.label  "Menu contextuel de la barre d'outils">
+<!ENTITY ok.custom.tb.label                      "Barre d'outils principale">
+<!ENTITY ok.custom.zoom.label                    "Taille du zoom principal">
+<!ENTITY ok.custom.media.label                   "Médias">
+<!ENTITY ok.custom.media.autoplay.enable.label   "Activer la lecture automatique des médias">
+<!ENTITY ok.custom.tb.button.label               "Personnaliser la barre d'outils">
+<!ENTITY ok.custom.context.label                 "Menu contextuel">
+<!ENTITY ok.custom.context.menu.enable.label     "Activer le menu contextuel">
+<!ENTITY ok.custom.context.enable.label          "Activer la recherche contextuelle">
+<!ENTITY ok.custom.quit.label                    "Quitter">
+<!ENTITY ok.custom.quit.pass.enable.label        "Activer le mot de passe du bouton Quitter">
+<!ENTITY ok.custom.status.label                  "Statut">
+<!ENTITY ok.custom.status.enable.label           "Activer le texte d'état du lien">
+<!ENTITY ok.custom.selection.label               "Sélection">
+<!ENTITY ok.custom.selection.enable.label        "Activer la sélection sur les pages Web">
+<!ENTITY ok.admin.controls.label                 "Mot de passe">
+<!ENTITY ok.admin.password.label                 "Entrez un nouveau mot de passe">
+<!ENTITY ok.admin.button.reset.label             "Réinitialiser">
+<!ENTITY ok.admin.print.label                    "Impression">
+<!ENTITY ok.admin.print.silent.enable.label      "Activer l'impression silencieuse.">
+<!ENTITY ok.admin.print.web.enable.label         "Autoriser l'impression à partir d'une page Web.">
+<!ENTITY ok.admin.navkeys.label                  "Raccourcis clavier">
+<!ENTITY ok.admin.settingskeys.enable.label      "Activer les touches de paramètres.">
+<!ENTITY ok.admin.navkeys.enable.label           "Activer les touches de navigation Précédent/Avant.">
+<!ENTITY ok.admin.multimonitor.label             "Affichages multiples">
+<!ENTITY ok.admin.multimonitor.enable.label      "Autoriser les autres écrans à fonctionner pendant que l'écran OpenKiosk est orienté vers l'utilisateur (moins sécurisé)">
+<!ENTITY ok.admin.externalapps.label             "Demandes externes">
+<!ENTITY ok.admin.externalapps.enable.label      "Autoriser les applications externes à s'ouvrir (non sécurisé).">
+<!ENTITY ok.admin.exit.label                     "Quitter le mode">
+<!ENTITY ok.admin.reset.enable.label             "Démarrer une nouvelle session en quittant l'administration.">
+<!ENTITY ok.admin.download.label                 "Téléchargements">
+<!ENTITY ok.admin.download.enable.label          "Autoriser l'affichage de la boîte de dialogue de téléchargement.">
+<!ENTITY ok.admin.pdf.download.enable.label      "Autorisez l'enregistrement des fichiers PDF dans le répertoire des téléchargements qui sera ensuite affiché à l'utilisateur.">
+<!ENTITY ok.admin.upload.label                   "Téléchargement de fichiers">
+<!ENTITY ok.admin.upload.enable.label            "Activer le contrôle du formulaire de téléchargement de fichiers sur les pages Web.">
+
+<!ENTITY ok.shutdown.button                      "Fermer">
+<!ENTITY ok.exit.button                          "Quitter les paramètres">
+

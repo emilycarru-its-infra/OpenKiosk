@@ -1,0 +1,12 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!ENTITY  brandShorterName      "OpenKiosk">
+<!ENTITY  brandShortName        "OpenKiosk">
+<!ENTITY  brandFullName         "OpenKiosk">
+<!ENTITY  vendorShortName       "MDG">
+<!ENTITY  trademarkInfo.part1   "OpenKiosk og OpenKiosk logoer frigives under MPL.">
+
+<!ENTITY  resetButton.label     "Station zur&#252;cksetzen">
+<!ENTITY  quitButton.label      "Verlassen">

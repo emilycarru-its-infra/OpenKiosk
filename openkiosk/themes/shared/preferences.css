@@ -1,0 +1,24 @@
+#category-openkiosk > .category-icon
+{
+  list-style-image: url("chrome://openkiosk/skin/openkiosk.svg");
+}
+
+hr { margin : 30px 0 20px 0; }
+table { width : 100%; }
+td { width : (100/x)%; }
+
+.indent
+{
+  margin-left : 40px;
+}
+
+.number
+{
+        width  : 50px;
+  margin-left  : 5px;
+  margin-right : 5px;
+        height : 25px;
+         width : 40px;
+}
+
+.debug { border : 1px solid red; }

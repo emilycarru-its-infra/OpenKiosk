@@ -1,0 +1,1340 @@
+diff -r 5c964bb7aa99 .hgignore
+--- a/.hgignore	Thu Dec 28 15:23:58 2023 -0500
++++ b/.hgignore	Fri Dec 29 09:18:03 2023 -0500
+@@ -294,3 +294,7 @@
+ 
+ # Ignore automatically generated mots documentation
+ ^docs/mots/index.rst
++
++# OpenKiosk
++openkiosk
++toolkit/components/pdfjs/content/web/images/home.svg
+diff -r 5c964bb7aa99 browser/Makefile.in
+--- a/browser/Makefile.in	Thu Dec 28 15:23:58 2023 -0500
++++ b/browser/Makefile.in	Fri Dec 29 09:18:03 2023 -0500
+@@ -4,13 +4,3 @@
+ 
+ include $(topsrcdir)/config/rules.mk
+ 
+-ifdef MAKENSISU
+-
+-# For Windows build the uninstaller during the application build since the
+-# uninstaller is included with the application for mar file generation.
+-libs::
+-	$(MAKE) -C installer/windows uninstaller
+-ifdef MOZ_MAINTENANCE_SERVICE
+-	$(MAKE) -C installer/windows maintenanceservice_installer
+-endif
+-endif
+diff -r 5c964bb7aa99 browser/app.mozbuild
+--- a/browser/app.mozbuild	Thu Dec 28 15:23:58 2023 -0500
++++ b/browser/app.mozbuild	Fri Dec 29 09:18:03 2023 -0500
+@@ -5,8 +5,3 @@
+ 
+ include('/toolkit/toolkit.mozbuild')
+ 
+-DIRS += ['/%s' % CONFIG['MOZ_BRANDING_DIRECTORY']]
+-
+-# Never add dirs after browser because they apparently won't get
+-# packaged properly on Mac.
+-DIRS += ['/browser']
+diff -r 5c964bb7aa99 browser/base/content/browser.js
+--- a/browser/base/content/browser.js	Thu Dec 28 15:23:58 2023 -0500
++++ b/browser/base/content/browser.js	Fri Dec 29 09:18:03 2023 -0500
+@@ -1549,6 +1549,7 @@
+         document.documentElement.setAttribute("sizemode", "maximized");
+       }
+     }
++/****** OPENKIOSK BLOCK HIDE MENUBAR MENUITEM
+     if (AppConstants.MENUBAR_CAN_AUTOHIDE) {
+       const toolbarMenubar = document.getElementById("toolbar-menubar");
+       // set a default value
+@@ -1561,6 +1562,7 @@
+       );
+       toolbarMenubar.setAttribute("data-l10n-attrs", "toolbarname");
+     }
++******/
+ 
+     // Run menubar initialization first, to avoid TabsInTitlebar code picking
+     // up mutations from it and causing a reflow.
+@@ -3593,6 +3595,7 @@
+ };
+ 
+ function openHomeDialog(aURL) {
++  if (!OpenKioskAdmin.adminMode) return;
+   var promptTitle = gNavigatorBundle.getString("droponhometitle");
+   var promptMsg;
+   if (aURL.includes("|")) {
+@@ -6395,6 +6398,7 @@
+ };
+ 
+ function showFullScreenViewContextMenuItems(popup) {
++/****
+   for (let node of popup.querySelectorAll('[contexttype="fullscreen"]')) {
+     node.hidden = !window.fullScreen;
+   }
+@@ -6402,6 +6406,7 @@
+   if (autoHide) {
+     FullScreen.updateAutohideMenuitem(autoHide);
+   }
++****/
+ }
+ 
+ function onViewToolbarsPopupShowing(aEvent, aInsertPoint) {
+@@ -6427,8 +6432,10 @@
+     }
+ 
+     if (toolbar.id == "PersonalToolbar") {
++/****
+       let menu = BookmarkingUI.buildBookmarksToolbarSubmenu(toolbar);
+       popup.insertBefore(menu, firstMenuItem);
++****/
+     } else {
+       let menuItem = document.createXULElement("menuitem");
+       menuItem.setAttribute("id", "toggle_" + toolbar.id);
+diff -r 5c964bb7aa99 browser/base/content/default-bookmarks.html
+--- a/browser/base/content/default-bookmarks.html	Thu Dec 28 15:23:58 2023 -0500
++++ b/browser/base/content/default-bookmarks.html	Fri Dec 29 09:18:03 2023 -0500
+@@ -1,14 +1,3 @@
+-#filter substitution
+-
+-#define mozilla_icon data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E %3Cpath d='M0 0h16v16H0z'/%3E %3Cpath d='M13.994 10.356H15V12h-3.171V7.741c0-1.308-.435-1.81-1.29-1.81-1.04 0-1.46.737-1.46 1.8v2.63h1.006V12H6.918V7.741c0-1.308-.435-1.81-1.291-1.81-1.039 0-1.459.737-1.459 1.8v2.63h1.441V12H1v-1.644h1.006V6.079H1V4.435h3.168v1.139a2.507 2.507 0 0 1 2.3-1.29A2.452 2.452 0 0 1 8.931 5.91 2.535 2.535 0 0 1 11.4 4.284 2.448 2.448 0 0 1 14 6.9v3.458z' fill='%23fff'/%3E %3C/svg%3E
+-
+-#define firefox_icon data:image/png;base64,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
+-
+-#define bugzilla_icon data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAnYCL7J0pY9wwETY9kYEM9AAAAAEBAYAhVVVUDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA1bjTOS1Vb/wAA2/8JEqT/Q0g8kQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJnMqoiJtJ/0haST/NEkp/yQnW/8AAPD8AAHY/RsgP/JZUI+GKitih4ObUEAAAAAAAAAAAAAAAAAAAAAAKnouwip5Lv9ooW//a6Jz/y9GIv8JBXb/AADO/gEBvf8AAK7/FRJp/z9BfP8iLGj1AAAAAAAAAAAAAAAAL4YzwiB0I/+UwJ3/bK+C/02eZ/9CTjz/DBa1/wABxf8BAOj/AACp/w8Oc/sJCv//EhCN9AAAAAAAAAAANJA6iC2MMv93tYL/TZ5U/3mzjP9NoWr/NEss/wYIU/8CBOn/ARCX/wwNqP0TD6X/Cgyex5qacDAAAAAAAAAAADKUN/ZirWj/d76R/0SgXf9Ln1P/eLSM/1mda/8rOkb/CQiD/wMQvf8UEnT/MTAt4P//MwUhZyN8AAAAAAAAAAAznDf5UqlZ/228jP9NqnD/Qp9c/0yiVP+Dv5b/VaVw/0VxXf9PZXD/S3pQ/y54Nf8jcCf/I2wn/wAAAAA0ozjIM6E4/zOeOP+Uz6z/XLR+/06scv9BoV3/TqZX/4XBmP9XqHP/hr6Z/yp+Lf8leSr1JXUqbQAAAAA3rTz7Nqo7/zWmOqM3oz7rUK1W/43Mpf9etYD/T61z/0KjXf9Rqln/msup/46/lf8pgy7/JFg6sAAAAAAAAAAAOK8+8jqvOiMAAAAAAAAAADSlOv85pT//kM6o/2K5hP9Ysnv/YLJ2/ziXPv8piS3/V6Ri/yZQQ9wAAAAAAAAAAAAAAAAAAAAAAAAAADetP0E2qzz/OKg98UWsS/+e1K3/pNe4/4XDjv8ojy3/T7df/5fIqv8sjTH/K4kw/yqFLv8AAAAAAAAAAAAAAAA4sT3xN7A8+QAAAAA4qz3yNag6/zSlOf80oTn/csJ+/6/jwv9fjHj/MmRMdQAAAAAAAAAAAAAAAAAAAAAAAAAAOrdA/zm0QHQAAAAAAAAAADasO/k2qTvuRX5lpjqGT/gznDr/O3FXigAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADq9QiMAAAAAAAAAAAAAAAA4sj7/Nq09s0uOaSI1qTplM6U68wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOrc//zu0P0EAAAAAOK4+UjWsPPgAAAAAAAAAAAAAAAAAAAAA/48AAP8HAAD4AQAA8AAAAOAAAADAAQAAwAMAAMAAAACAAwAAAAMAAHADAADwAAAA5AcAAO4HAAD+bwAA/u8AAA==
+-
+-#define mdn_icon data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAABgElEQVR4AWPouPiRpmjUAjgatSBj+aG0OVuyVhymsgWl2y475zXySikwwIC4lpFDVk3avG0BrXP9mmeV7bhCvgXuxW3M7JwMeAGfpByZFpjHFzAQB2KmrSfZAtuMKgaiAZ+MUuLc7SRY4FbYwkA60HAJiJm8uubQAwIWeJV1MlAAOAREHDJrcFqQMG+ngIK6oKyykLwqAyMjeXZwiUjgtKD+yGMIwyGzmoGBTAs4hcXrgObgi4OiVkpCiUtYov7YU5wW1B194t0ww69ldvjktYouwWRYIGdkQ1Q+iJ28hp2Xn7B5zKzIPAlNw6S52wlbkL3mJJecOq+CBqeIJC6TjUJTMlcdz9lwLmriSuPgJBVbj/D+5SSXRequQVhNN4nIoEJhV77jKgs7B6bprJw85XtuU8GCpNlbSS3gSA4ii4QiTAvElDWpWeH41kxg5eZDSypUrtFKd1zTcA1EpHRDS5rUyQEts+VN7JjYOGR0TWhY6RdsOhc/Y9NoswUJjVoAAE+h555Rgcg2AAAAAElFTkSuQmCC
+-
+-#define addon_icon data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABOFBMVEUAAAAAzdwAydcAyNgA//8AzOYAydcAyNgAyNgA2NgAytoAzNkAytgAydgA29sA0egAyNgAyNgA//8AyNgAydgA//8Ay9cAydcAytkAz90Ay9gA1eoAydgAytsAyNgAytgAydkAydgAydgAyNgAydgAyNcAy9oAydgA//8AytsAy9kAytkAyNgAydgAydkAy9kAzP8AydgAydgAydgAz98AzN0AyNcAyNsAydcAydgAydgAydcAytgAytcAydcAydcAytcAydcAyNcAydcAy9gAztgAydcAydgAzOAAydcAyNgAyNgAytwAyNcAyNgAy9wAyNcAyNcAyNgAydgAyNcAydcAydgA0uEAydkAyNgAyeQA4+MAyNgAydkAzN0AyNsA1f8AyNgAydgAydcA1eMAydgAydcAyNdj6PGJAAAAZ3RSTlMAJFpBAQqm8qwNPiiPygcLv8QEw5cDQMA1JU4MwiuDbl/+6+m4+0XLAj9KePz9cjYFvervEA/IDsfFr+xcgeaOYIDo+ica1OMZ9bXlHe73LM3M35itxs8Rf5ATCbFeHjgGttC5ErzO3WvwaAAAAWxJREFUOMt9kudCwkAQhFcITQWCoaggiBqxoaixYUVsYMMGCmLXff838LIXCJAL84fvmCHsTg4AYMDhlIDkcnu8Po4w6BjiIA0joj+gY1BmGKLEiMIwHNFR9xGjuh8jpMQoYZjRGBGOA8QTHDEUB4hynABwcEqCT8GW2DNSnCYBnJzSoSk0NT2jcphlM/rRXpk5NkRgfmFxSWBml6MrOWNlWBUEEmDKtyYIrGttP66gSP4Nww8mUKzNLd5/zHaJbb1Tl9xnzR2WcGM/5QE8BLvJvf0Dc4HDo8IxUVECL5Vywv7s9Mzwz/WLcFHSsWy8w0sa9+qa/JtbOlUY3mnGLbjnCz9Q4JEfnhCrNb5nXi3w754p8MIPKVWpt6psGJ+vFJBbBUO3GlozzYdsSmCV1NlntiTnegNvPQ29Wx7h7fKrEUvg47PD/6oLpgh8m7//AZEav4b/J/bbb75SAzvR3crY+6y8fLGsQV9ZSvwHF4LQIhDjT+8AAAAASUVORK5CYII=
+ <!-- This Source Code Form is subject to the terms of the Mozilla Public
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+@@ -29,41 +18,6 @@
+ <dl><p>
+     <dt><h3 personal_toolbar_folder="true" data-l10n-id="default-bookmarks-toolbarfolder">default-bookmarks-toolbarfolder</h3></dt>
+     <dd data-l10n-id="default-bookmarks-toolbarfolder-description">default-bookmarks-toolbarfolder-description</dd>
+-#ifndef NIGHTLY_BUILD
+-#ifdef EARLY_BETA_OR_EARLIER
+-        <dl><p>
+-            <dt><a href="https://www.mozilla.org/firefox/central/" icon="@firefox_icon@" data-l10n-id="default-bookmarks-getting-started">default-bookmarks-getting-started</a></dt>
+-        </dl><p>
+-#else
+-        <dl><p>
+-            <dt><a href="https://www.mozilla.org/firefox/?utm_medium=firefox-desktop&utm_source=bookmarks-toolbar&utm_campaign=new-users&utm_content=-global" icon="@firefox_icon@" data-l10n-id="default-bookmarks-getting-started">default-bookmarks-getting-started</a></dt>
+-        </dl><p>
+-#endif
+-    <dt><h3 data-l10n-id="default-bookmarks-firefox-heading">default-bookmarks-firefox-heading</h3></dt>
+-        <dl><p>
+-            <dt><a href="https://support.mozilla.org/products/firefox" icon="@firefox_icon@" data-l10n-id="default-bookmarks-firefox-get-help">default-bookmarks-firefox-get-help</a></dt>
+-            <dt><a href="https://support.mozilla.org/kb/customize-firefox-controls-buttons-and-toolbars?utm_source=firefox-browser&utm_medium=default-bookmarks&utm_campaign=customize" icon="@firefox_icon@" data-l10n-id="default-bookmarks-firefox-customize">default-bookmarks-firefox-customize</a></dt>
+-#ifdef EARLY_BETA_OR_EARLIER
+-            <dt><a href="https://www.mozilla.org/contribute/?utm_medium=firefox-desktop&utm_source=bookmarks-toolbar&utm_campaign=new-users-beta&utm_content=-global" icon="@mozilla_icon@" data-l10n-id="default-bookmarks-firefox-community">default-bookmarks-firefox-community</a></dt>
+-#else
+-            <dt><a href="https://www.mozilla.org/contribute/" icon="@mozilla_icon@" data-l10n-id="default-bookmarks-firefox-community">default-bookmarks-firefox-community</a></dt>
+-#endif
+-            <dt><a href="https://www.mozilla.org/about/" icon="@mozilla_icon@" data-l10n-id="default-bookmarks-firefox-about">default-bookmarks-firefox-about</a></dt>
+-        </dl><p>
+-#else
+-        <dl><p>
+-            <dt><a href="https://www.mozilla.org/contribute/?utm_medium=firefox-desktop&utm_source=bookmarks-toolbar&utm_campaign=new-users-nightly&utm_content=-global" icon="@mozilla_icon@" data-l10n-id="default-bookmarks-firefox-community">default-bookmarks-firefox-community</a></dt>
+-        </dl><p>
+-    <dt><h3 data-l10n-id="default-bookmarks-nightly-heading">default-bookmarks-nightly-heading</h3></dt>
+-        <dl><p>
+-            <dt><a href="https://blog.nightly.mozilla.org/" icon="@mozilla_icon@" data-l10n-id="default-bookmarks-nightly-blog">default-bookmarks-nightly-blog</a></dt>
+-            <dt><a href="https://bugzilla.mozilla.org/" icon="@bugzilla_icon@" shortcuturl="bz" data-l10n-id="default-bookmarks-bugzilla">default-bookmarks-bugzilla</a></dt>
+-            <dt><a href="https://developer.mozilla.org/" icon="@mdn_icon@" shortcuturl="mdn" data-l10n-id="default-bookmarks-mdn">default-bookmarks-mdn</a></dt>
+-            <dt><a href="https://addons.mozilla.org/firefox/addon/nightly-tester-tools/" icon="@addon_icon@" data-l10n-id="default-bookmarks-nightly-tester-tools">default-bookmarks-nightly-tester-tools</a></dt>
+-            <dt><a href="about:crashes" icon="@mozilla_icon@" data-l10n-id="default-bookmarks-crashes">default-bookmarks-crashes</a></dt>
+-            <dt><a href="https://planet.mozilla.org/" icon="@mozilla_icon@" data-l10n-id="default-bookmarks-planet">default-bookmarks-planet</a></dt>
+-        </dl><p>
+-#endif
+ </dl>
+ </body>
+ </html>
+diff -r 5c964bb7aa99 browser/base/content/main-popupset.inc.xhtml
+--- a/browser/base/content/main-popupset.inc.xhtml	Thu Dec 28 15:23:58 2023 -0500
++++ b/browser/base/content/main-popupset.inc.xhtml	Fri Dec 29 09:18:03 2023 -0500
+@@ -21,10 +21,13 @@
+     <menuitem id="context_toggleMuteSelectedTabs" hidden="true"
+               oncommand="gBrowser.toggleMuteAudioOnMultiSelectedTabs(TabContextMenu.contextTab);"/>
+     <menuitem id="context_pinTab" data-lazy-l10n-id="pin-tab"
++              hidden="true" collapsed="true"
+               oncommand="gBrowser.pinTab(TabContextMenu.contextTab);"/>
+-    <menuitem id="context_unpinTab" data-lazy-l10n-id="unpin-tab" hidden="true"
++    <menuitem id="context_unpinTab" data-lazy-l10n-id="unpin-tab"
++              hidden="true" collapsed="true"
+               oncommand="gBrowser.unpinTab(TabContextMenu.contextTab);"/>
+-    <menuitem id="context_pinSelectedTabs" data-lazy-l10n-id="pin-selected-tabs" hidden="true"
++    <menuitem id="context_pinSelectedTabs" data-lazy-l10n-id="pin-selected-tabs" 
++              hidden="true" collapsed="true"
+               oncommand="gBrowser.pinMultiSelectedTabs();"/>
+     <menuitem id="context_unpinSelectedTabs" data-lazy-l10n-id="unpin-selected-tabs" hidden="true"
+               oncommand="gBrowser.unpinMultiSelectedTabs();"/>
+@@ -34,7 +37,7 @@
+               oncommand="TabContextMenu.duplicateSelectedTabs();"/>
+     <menuseparator/>
+     <menuitem id="context_bookmarkSelectedTabs"
+-              hidden="true"
++              hidden="true" collapsed="true"
+               data-lazy-l10n-id="bookmark-selected-tabs"
+               oncommand="PlacesUIUtils.showBookmarkPagesDialog(PlacesCommandHook.uniqueSelectedPages);"/>
+     <menuitem id="context_bookmarkTab"
+@@ -43,7 +46,7 @@
+     <menu id="context_moveTabOptions"
+           data-lazy-l10n-id="tab-context-move-tabs"
+           data-l10n-args='{"tabCount": 1}'>
+-      <menupopup id="moveTabOptionsMenu">
++      <menupopup id="moveTabOptionsMenu" hidden="true" collapsed="true">
+         <menuitem id="context_moveToStart"
+                   data-lazy-l10n-id="move-to-start"
+                   tbattr="tabbrowser-multiple-visible"
+@@ -58,6 +61,7 @@
+       </menupopup>
+     </menu>
+     <menu id="context_sendTabToDevice"
++          hidden="true" collapsed="true"
+           class="sync-ui-item"
+           data-lazy-l10n-id="tab-context-send-tabs-to-device"
+           data-l10n-args='{"tabCount": 1}'>
+@@ -66,7 +70,7 @@
+     </menu>
+     <menu id="context_reopenInContainer"
+           data-lazy-l10n-id="tab-context-open-in-new-container-tab"
+-          hidden="true">
++          hidden="true" collapsed="true">
+       <menupopup oncommand="TabContextMenu.reopenInContainer(event);"
+                  onpopupshowing="TabContextMenu.createReopenInContainerMenu(event);"/>
+     </menu>
+@@ -78,6 +82,7 @@
+               data-l10n-args='{"tabCount": 1}'
+               oncommand="TabContextMenu.closeContextTabs();"/>
+     <menu id="context_closeTabOptions"
++          hidden="true" collapsed="true"
+           data-lazy-l10n-id="tab-context-close-multiple-tabs">
+       <menupopup id="closeTabOptions">
+         <menuitem id="context_closeTabsToTheStart" data-lazy-l10n-id="close-tabs-to-the-start"
+@@ -92,13 +97,15 @@
+               data-lazy-l10n-id="tab-context-reopen-closed-tabs"
+               data-l10n-args='{"tabCount": 1}'
+               observes="History:UndoCloseTab"/>
+-    <menuseparator contexttype="fullscreen"/>
++    <menuseparator contexttype="fullscreen" hidden="true" collapsed="true"/>
+     <menuitem class="fullscreen-context-autohide"
++              hidden="true" collapsed="true"
+               contexttype="fullscreen"
+               type="checkbox"
+               data-lazy-l10n-id="full-screen-autohide"
+               oncommand="FullScreen.setAutohide();"/>
+     <menuitem contexttype="fullscreen"
++              hidden="true" collapsed="true"
+               data-lazy-l10n-id="full-screen-exit"
+               oncommand="BrowserFullScreen();"/>
+   </menupopup>
+@@ -331,6 +338,7 @@
+               contexttype="toolbaritem"/>
+     <menuitem oncommand="gCustomizeMode.removeFromArea(this.parentNode.triggerNode, 'toolbar-context-menu')"
+               data-lazy-l10n-id="toolbar-context-menu-remove-from-toolbar"
++              hidden="true" collapsed="true"
+               contexttype="toolbaritem"
+               class="customize-context-removeFromToolbar"/>
+     <menuitem oncommand="gUnifiedExtensions.onPinToToolbarChange(this.parentElement, event);"
+@@ -373,8 +381,8 @@
+               contexttype="tabbar"
+               data-lazy-l10n-id="toolbar-context-menu-reopen-closed-tabs"
+               observes="History:UndoCloseTab"/>
+-    <menuseparator id="toolbarItemsMenuSeparator"/>
+-    <menuseparator id="viewToolbarsMenuSeparator"/>
++    <menuseparator id="toolbarItemsMenuSeparator" hidden="true" collapsed="true"/>
++    <menuseparator id="viewToolbarsMenuSeparator" hidden="true" collapsed="true"/>
+     <!-- XXXgijs: we're using oncommand handler here to avoid the event being
+                   redirected to the command element, thus preventing
+                   listeners on the menupopup or further up the tree from
+@@ -385,6 +393,7 @@
+               observes="cmd_CustomizeToolbars"
+               class="viewCustomizeToolbar"
+               data-lazy-l10n-id="toolbar-context-menu-view-customize-toolbar-2"/>
++<!-- OPENKIOSK
+     <menuseparator contexttype="fullscreen"/>
+     <menuitem class="fullscreen-context-autohide"
+               contexttype="fullscreen"
+@@ -394,6 +403,7 @@
+     <menuitem contexttype="fullscreen"
+               data-lazy-l10n-id="full-screen-exit"
+               oncommand="BrowserFullScreen();"/>
++-->
+   </menupopup>
+ 
+   <menupopup id="blockedPopupOptions"
+diff -r 5c964bb7aa99 browser/base/content/navigator-toolbox.inc.xhtml
+--- a/browser/base/content/navigator-toolbox.inc.xhtml	Thu Dec 28 15:23:58 2023 -0500
++++ b/browser/base/content/navigator-toolbox.inc.xhtml	Fri Dec 29 09:18:03 2023 -0500
+@@ -96,7 +96,7 @@
+                          onkeypress="gTabsPanel.showAllTabsPanel(event, 'alltabs-button');"
+                          onmousedown="gTabsPanel.showAllTabsPanel(event, 'alltabs-button');"
+                          data-l10n-id="tabs-toolbar-list-all-tabs"
+-                         removable="false"/>
++                         removable="true"/>
+         </hbox>
+       </hbox>
+ 
+@@ -466,6 +466,9 @@
+                      onmousedown="gUnifiedExtensions.togglePanel(event)"
+                      overflows="false"
+                      removable="false"/>
++
++#include ../../../openkiosk/base/content/openkiosk-buttons.inc
++
+     </hbox>
+ 
+     <toolbarbutton id="nav-bar-overflow-button"
+diff -r 5c964bb7aa99 browser/base/content/titlebar-items.inc.xhtml
+--- a/browser/base/content/titlebar-items.inc.xhtml	Thu Dec 28 15:23:58 2023 -0500
++++ b/browser/base/content/titlebar-items.inc.xhtml	Fri Dec 29 09:18:03 2023 -0500
+@@ -2,6 +2,7 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
++<!-- OPENKIOSK
+ <hbox class="titlebar-buttonbox-container" skipintoolbarset="true">
+   <hbox class="titlebar-buttonbox titlebar-color">
+     <toolbarbutton class="titlebar-button titlebar-min"
+@@ -22,3 +23,4 @@
+                    />
+   </hbox>
+ </hbox>
++-->
+diff -r 5c964bb7aa99 browser/base/jar.mn
+--- a/browser/base/jar.mn	Thu Dec 28 15:23:58 2023 -0500
++++ b/browser/base/jar.mn	Fri Dec 29 09:18:03 2023 -0500
+@@ -103,7 +103,7 @@
+         content/browser/blockedSite.js                  (content/blockedSite.js)
+         content/browser/spotlight.html                (content/spotlight.html)
+         content/browser/spotlight.js                  (content/spotlight.js)
+-*       content/browser/default-bookmarks.html        (content/default-bookmarks.html)
++        content/browser/default-bookmarks.html        (content/default-bookmarks.html)
+ 
+ # L10n resources and overrides.
+ % override chrome://global/locale/appstrings.properties chrome://browser/locale/appstrings.properties
+diff -r 5c964bb7aa99 browser/components/BrowserContentHandler.sys.mjs
+--- a/browser/components/BrowserContentHandler.sys.mjs	Thu Dec 28 15:23:58 2023 -0500
++++ b/browser/components/BrowserContentHandler.sys.mjs	Fri Dec 29 09:18:03 2023 -0500
+@@ -807,7 +807,10 @@
+       return overridePage + "|" + startPage;
+     }
+ 
+-    return overridePage || startPage || "about:blank";
++    if (Services.prefs.getBoolPref("openkiosk.attractscreen.enabled")) 
++      startPage = Services.prefs.getCharPref("openkiosk.attractscreen.url") || Services.prefs.getCharPref("openkiosk.attractscreen.url.default");
++
++    return overridePage || startPage || Services.prefs.getCharPref("browser.startup.homepage");
+   },
+ 
+   mFeatures: null,
+diff -r 5c964bb7aa99 browser/components/BrowserGlue.sys.mjs
+--- a/browser/components/BrowserGlue.sys.mjs	Thu Dec 28 15:23:58 2023 -0500
++++ b/browser/components/BrowserGlue.sys.mjs	Fri Dec 29 09:18:03 2023 -0500
+@@ -1266,6 +1266,7 @@
+   _beforeUIStartup: function BG__beforeUIStartup() {
+     lazy.SessionStartup.init();
+ 
++    /** OEPNKIOSK: BLOCK SAFE MODE
+     // check if we're in safe mode
+     if (Services.appinfo.inSafeMode) {
+       Services.ww.openWindow(
+@@ -1276,6 +1277,7 @@
+         null
+       );
+     }
++    **/
+ 
+     // apply distribution customizations
+     this._distributionCustomizer.applyCustomizations();
+@@ -4406,6 +4408,7 @@
+   },
+ 
+   async _maybeShowDefaultBrowserPrompt() {
++    return;
+     // Highest priority is about:welcome window modal experiment
+     // Second highest priority is the upgrade dialog, which can include a "primary
+     // browser" request and is limited in various ways, e.g., major upgrades.
+diff -r 5c964bb7aa99 browser/components/controlcenter/content/identityPanel.inc.xhtml
+--- a/browser/components/controlcenter/content/identityPanel.inc.xhtml	Thu Dec 28 15:23:58 2023 -0500
++++ b/browser/components/controlcenter/content/identityPanel.inc.xhtml	Fri Dec 29 09:18:03 2023 -0500
+@@ -191,7 +191,7 @@
+         </vbox>
+       </vbox>
+ 
+-      <vbox id="identity-popup-more-info-footer">
++      <vbox id="identity-popup-more-info-footer" collapsed="true" hidden="true">
+         <!-- More Security Information -->
+         <toolbarseparator />
+         <toolbarbutton id="identity-popup-more-info"
+diff -r 5c964bb7aa99 browser/components/places/content/browserPlacesViews.js
+--- a/browser/components/places/content/browserPlacesViews.js	Thu Dec 28 15:23:58 2023 -0500
++++ b/browser/components/places/content/browserPlacesViews.js	Fri Dec 29 09:18:03 2023 -0500
+@@ -261,6 +261,9 @@
+       let menu = BookmarkingUI.buildBookmarksToolbarSubmenu(bookmarksToolbar);
+       aPopup.insertBefore(menu, manageBookmarksMenu);
+ 
++      // OPENKIOSK
++      menu.hidden = menu.collapsed = true;
++
+       if (
+         aPopup.triggerNode.id === "OtherBookmarks" ||
+         aPopup.triggerNode.id === "PlacesChevron" ||
+diff -r 5c964bb7aa99 browser/components/preferences/preferences.js
+--- a/browser/components/preferences/preferences.js	Thu Dec 28 15:23:58 2023 -0500
++++ b/browser/components/preferences/preferences.js	Fri Dec 29 09:18:03 2023 -0500
+@@ -242,6 +242,7 @@
+     register_module("paneSync", gSyncPane);
+   }
+   register_module("paneSearchResults", gSearchResultsPane);
++  register_module("paneOpenKiosk", gOpenKioskPane);
+   gSearchResultsPane.init();
+   gMainPane.preInit();
+ 
+diff -r 5c964bb7aa99 browser/components/preferences/preferences.xhtml
+--- a/browser/components/preferences/preferences.xhtml	Thu Dec 28 15:23:58 2023 -0500
++++ b/browser/components/preferences/preferences.xhtml	Fri Dec 29 09:18:03 2023 -0500
+@@ -12,8 +12,16 @@
+ <?xml-stylesheet href="chrome://browser/skin/preferences/search.css"?>
+ <?xml-stylesheet href="chrome://browser/skin/preferences/containers.css"?>
+ <?xml-stylesheet href="chrome://browser/skin/preferences/privacy.css"?>
++<?xml-stylesheet href="chrome://openkiosk/skin/preferences.css"?>
+ 
+-<!DOCTYPE html>
++<!DOCTYPE html [
++<!ENTITY % openkioskDTD SYSTEM "chrome://openkiosk/locale/preferences.dtd">
++%openkioskDTD;
++<!ENTITY % okaboutDTD SYSTEM "chrome://openkiosk/locale/about.dtd">
++%okaboutDTD;
++<!ENTITY % okbrandDTD SYSTEM "chrome://branding/locale/brand.dtd">
++%okbrandDTD;
++]>
+ 
+ <html xmlns="http://www.w3.org/1999/xhtml"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+@@ -166,6 +174,7 @@
+           <image class="category-icon"/>
+           <label class="category-name" flex="1" data-l10n-id="more-from-moz-title"></label>
+         </richlistitem>
++#include ../../../openkiosk/base/content/preferences.inc
+       </richlistbox>
+ 
+       <spacer flex="1"/>
+@@ -216,6 +225,7 @@
+ #include sync.inc.xhtml
+ #include experimental.inc.xhtml
+ #include moreFromMozilla.inc.xhtml
++#include ../../../openkiosk/base/content/preferences.inc.xhtml
+         </vbox>
+       </vbox>
+     </vbox>
+diff -r 5c964bb7aa99 browser/components/search/SearchOneOffs.sys.mjs
+--- a/browser/components/search/SearchOneOffs.sys.mjs	Thu Dec 28 15:23:58 2023 -0500
++++ b/browser/components/search/SearchOneOffs.sys.mjs	Fri Dec 29 09:18:03 2023 -0500
+@@ -26,10 +26,10 @@
+     this.container.appendChild(
+       this.window.MozXULElement.parseXULToFragment(
+         `
+-      <hbox class="search-panel-one-offs-header search-panel-header">
++      <hbox class="search-panel-one-offs-header search-panel-header" collapsed="true">
+         <label class="search-panel-one-offs-header-label" data-l10n-id="search-one-offs-with-title"/>
+       </hbox>
+-      <box class="search-panel-one-offs-container">
++      <box class="search-panel-one-offs-container" collapsed="true">
+         <hbox class="search-panel-one-offs" role="group"/>
+         <button class="searchbar-engine-one-off-item search-setting-button" tabindex="-1" data-l10n-id="search-one-offs-change-settings-compact-button"/>
+       </box>
+diff -r 5c964bb7aa99 browser/moz.build
+--- a/browser/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/browser/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -4,14 +4,8 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+-CONFIGURE_SUBST_FILES += ["installer/Makefile"]
+-
+ SPHINX_TREES["/browser"] = "docs"
+ 
+-EXTRA_COMPONENTS += [
+-    "l10n-registry.manifest",
+-]
+-
+ DIRS += [
+     "actors",
+     "base",
+@@ -25,20 +19,10 @@
+     "branding",
+ ]
+ 
+-DIRS += [
+-    "app",
+-]
+-
+-if CONFIG["MAKENSISU"]:
+-    DIRS += ["installer/windows"]
+-
+ TEST_DIRS += [
+     "tools/mozscreenshots",
+ ]
+ 
+-DIST_SUBDIR = "browser"
+-export("DIST_SUBDIR")
+-
+ # These defines are read in firefox.js
+ DEFINES["APP_VERSION"] = CONFIG["MOZ_APP_VERSION"]
+ 
+@@ -54,13 +38,6 @@
+ if CONFIG["MOZ_ARTIFACT_BUILDS"]:
+     DEFINES["MOZ_ARTIFACT_BUILDS"] = True
+ 
+-# These files are specified in this moz.build to pick up DIST_SUBDIR as set in
+-# this directory, which is un-set in browser/app.
+-JS_PREFERENCE_PP_FILES += [
+-    "app/profile/firefox.js",
+-]
+-FINAL_TARGET_FILES.defaults += ["app/permissions"]
+-
+ with Files("**"):
+     BUG_COMPONENT = ("Firefox", "General")
+     SCHEDULES.exclusive = ["linux", "macosx", "windows"]
+diff -r 5c964bb7aa99 build/moz.build
+--- a/build/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/build/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -30,7 +30,7 @@
+ 
+ DEFINES["ACCEPTED_MAR_CHANNEL_IDS"] = CONFIG["ACCEPTED_MAR_CHANNEL_IDS"]
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     PYTHON_UNITTEST_MANIFESTS += [
+         "compare-mozconfig/python.ini",
+     ]
+@@ -81,7 +81,7 @@
+     if CONFIG["MOZ_APP_DISPLAYNAME"] != CONFIG["MOZ_APP_BASENAME"]:
+         appini_defines["MOZ_APP_DISPLAYNAME"] = CONFIG["MOZ_APP_DISPLAYNAME"]
+ 
+-    if CONFIG["MOZ_BUILD_APP"] == "browser":
++    if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+         appini_defines["MOZ_BUILD_APP_IS_BROWSER"] = True
+ 
+     if CONFIG["MOZ_APP_PROFILE"]:
+diff -r 5c964bb7aa99 devtools/client/shared/build/node-templates.mozbuild
+--- a/devtools/client/shared/build/node-templates.mozbuild	Thu Dec 28 15:23:58 2023 -0500
++++ b/devtools/client/shared/build/node-templates.mozbuild	Fri Dec 29 09:18:03 2023 -0500
+@@ -15,7 +15,7 @@
+   # HACK. Template export() propagation is janky so we have to re-implement the
+   # logic for computing FINAL_TARGET from scratch. Here we emulate the
+   # DIST_SUBDIR export in devtools/moz.build.
+-  if CONFIG['MOZ_BUILD_APP'] == 'browser':
++  if CONFIG['MOZ_BUILD_APP'] == 'openkiosk':
+     final_target = 'dist/bin/browser'
+   else:
+     final_target = 'dist/bin'
+diff -r 5c964bb7aa99 devtools/moz.build
+--- a/devtools/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/devtools/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -23,7 +23,7 @@
+ # /browser uses DIST_SUBDIR.  We opt-in to this treatment when building
+ # DevTools for the browser to keep the root omni.ja slim for use by external XUL
+ # apps.
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     DIST_SUBDIR = "browser"
+     export("DIST_SUBDIR")
+ 
+diff -r 5c964bb7aa99 docshell/moz.build
+--- a/docshell/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/docshell/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -7,7 +7,7 @@
+ with Files("**"):
+     BUG_COMPONENT = ("Core", "DOM: Navigation")
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     DEFINES["MOZ_BUILD_APP_IS_BROWSER"] = True
+ 
+ DIRS += [
+diff -r 5c964bb7aa99 dom/base/nsGlobalWindowInner.cpp
+--- a/dom/base/nsGlobalWindowInner.cpp	Thu Dec 28 15:23:58 2023 -0500
++++ b/dom/base/nsGlobalWindowInner.cpp	Fri Dec 29 09:18:03 2023 -0500
+@@ -131,6 +131,7 @@
+ #include "mozilla/dom/ImageBitmap.h"
+ #include "mozilla/dom/ImageBitmapSource.h"
+ #include "mozilla/dom/InstallTriggerBinding.h"
++#include "mozilla/dom/OpenKioskBinding.h"
+ #include "mozilla/dom/IntlUtils.h"
+ #include "mozilla/dom/JSExecutionContext.h"
+ #include "mozilla/dom/LSObject.h"
+@@ -1265,6 +1266,7 @@
+ 
+   mExternal = nullptr;
+   mInstallTrigger = nullptr;
++  mOpenKiosk = nullptr;
+ 
+   if (mLocalStorage) {
+     mLocalStorage->Disconnect();
+@@ -1442,6 +1444,7 @@
+   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mPaintWorklet)
+   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mExternal)
+   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mInstallTrigger)
++  NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mOpenKiosk)
+   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mIntlUtils)
+   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mVisualViewport)
+ 
+@@ -1553,6 +1556,7 @@
+   NS_IMPL_CYCLE_COLLECTION_UNLINK(mPaintWorklet)
+   NS_IMPL_CYCLE_COLLECTION_UNLINK(mExternal)
+   NS_IMPL_CYCLE_COLLECTION_UNLINK(mInstallTrigger)
++  NS_IMPL_CYCLE_COLLECTION_UNLINK(mOpenKiosk)
+   NS_IMPL_CYCLE_COLLECTION_UNLINK(mIntlUtils)
+   NS_IMPL_CYCLE_COLLECTION_UNLINK(mVisualViewport)
+ 
+@@ -2561,6 +2565,20 @@
+   return mInstallTrigger;
+ }
+ 
++IOpenKiosk* nsGlobalWindowInner::GetOpenKiosk() {
++  if (!mOpenKiosk) {
++    ErrorResult rv;
++    mOpenKiosk = ConstructJSImplementation<IOpenKiosk>(
++        "@mozdevgroup.com/openkioskdom;1", this, rv);
++    if (rv.Failed()) {
++      rv.SuppressException();
++      return nullptr;
++    }
++  }
++
++  return mOpenKiosk;
++}
++
+ nsIDOMWindowUtils* nsGlobalWindowInner::GetWindowUtils(ErrorResult& aRv) {
+   FORWARD_TO_OUTER_OR_THROW(WindowUtils, (), aRv, nullptr);
+ }
+diff -r 5c964bb7aa99 dom/base/nsGlobalWindowInner.h
+--- a/dom/base/nsGlobalWindowInner.h	Thu Dec 28 15:23:58 2023 -0500
++++ b/dom/base/nsGlobalWindowInner.h	Fri Dec 29 09:18:03 2023 -0500
+@@ -115,6 +115,7 @@
+ class IdleRequestCallback;
+ class IncrementalRunnable;
+ class InstallTriggerImpl;
++class IOpenKiosk;
+ class IntlUtils;
+ class MediaQueryList;
+ class OwningExternalOrWindowProxy;
+@@ -969,6 +970,8 @@
+ 
+   mozilla::dom::InstallTriggerImpl* GetInstallTrigger();
+ 
++  mozilla::dom::IOpenKiosk* GetOpenKiosk();
++
+   nsIDOMWindowUtils* GetWindowUtils(mozilla::ErrorResult& aRv);
+ 
+   void UpdateTopInnerWindow();
+@@ -1449,6 +1452,7 @@
+   RefPtr<mozilla::dom::Worklet> mPaintWorklet;
+   RefPtr<mozilla::dom::External> mExternal;
+   RefPtr<mozilla::dom::InstallTriggerImpl> mInstallTrigger;
++  RefPtr<mozilla::dom::IOpenKiosk> mOpenKiosk;
+ 
+   RefPtr<mozilla::dom::Storage> mLocalStorage;
+   RefPtr<mozilla::dom::Storage> mSessionStorage;
+diff -r 5c964bb7aa99 dom/base/nsGlobalWindowOuter.cpp
+--- a/dom/base/nsGlobalWindowOuter.cpp	Thu Dec 28 15:23:58 2023 -0500
++++ b/dom/base/nsGlobalWindowOuter.cpp	Fri Dec 29 09:18:03 2023 -0500
+@@ -5116,6 +5116,9 @@
+ }
+ 
+ void nsGlobalWindowOuter::PrintOuter(ErrorResult& aError) {
++  // OPENKIOSK
++  if (!Preferences::GetBool("openkiosk.print.web.enabled")) return;
++
+   if (!AreDialogsEnabled()) {
+     // Per spec, silently return. https://github.com/whatwg/html/commit/21a1de1
+     return;
+diff -r 5c964bb7aa99 dom/html/HTMLInputElement.cpp
+--- a/dom/html/HTMLInputElement.cpp	Thu Dec 28 15:23:58 2023 -0500
++++ b/dom/html/HTMLInputElement.cpp	Fri Dec 29 09:18:03 2023 -0500
+@@ -767,6 +767,12 @@
+ nsresult HTMLInputElement::InitFilePicker(FilePickerType aType) {
+   MOZ_ASSERT(IsMutable());
+ 
++if (!Preferences::GetBool("openkiosk.file.upload.enabled"))
++ {
++   printf("******** FILE UPLOAD DISABLED ********\n");
++   return NS_OK;
++ }
++
+   if (mPickerRunning) {
+     NS_WARNING("Just one nsIFilePicker is allowed");
+     return NS_ERROR_FAILURE;
+diff -r 5c964bb7aa99 dom/webidl/OpenKiosk.webidl
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/dom/webidl/OpenKiosk.webidl	Fri Dec 29 09:18:03 2023 -0500
+@@ -0,0 +1,14 @@
++/* This Source Code Form is subject to the terms of the Mozilla Public
++ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
++ * You can obtain one at http://mozilla.org/MPL/2.0/.
++ */
++
++[JSImplementation="@mozilla.org/openkioskdom;1", Exposed=Window]
++interface IOpenKiosk
++{
++  undefined quit();
++  undefined settings();
++  readonly attribute boolean PDFDownloadEnabled;
++  readonly attribute boolean fullscreenEnabled;
++};
++
+diff -r 5c964bb7aa99 dom/webidl/Window.webidl
+--- a/dom/webidl/Window.webidl	Thu Dec 28 15:23:58 2023 -0500
++++ b/dom/webidl/Window.webidl	Fri Dec 29 09:18:03 2023 -0500
+@@ -555,6 +555,12 @@
+   readonly attribute InstallTriggerImpl? InstallTrigger;
+ 
+   /**
++   * OpenKiosk API
++   */
++  [Replaceable]
++  readonly attribute IOpenKiosk? OpenKiosk;
++
++  /**
+    * Get the nsIDOMWindowUtils for this window.
+    */
+   [Constant, Throws, ChromeOnly]
+diff -r 5c964bb7aa99 dom/webidl/moz.build
+--- a/dom/webidl/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/dom/webidl/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -1138,6 +1138,7 @@
+ 
+ WEBIDL_FILES += [
+     "InstallTrigger.webidl",
++    "OpenKiosk.webidl",
+ ]
+ 
+ if CONFIG["FUZZING"]:
+diff -r 5c964bb7aa99 dom/xul/moz.build
+--- a/dom/xul/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/dom/xul/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -7,7 +7,7 @@
+ with Files("**"):
+     BUG_COMPONENT = ("Core", "XUL")
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     DEFINES["MOZ_BREAK_XUL_OVERLAYS"] = True
+ 
+ MOCHITEST_CHROME_MANIFESTS += ["test/chrome.ini"]
+diff -r 5c964bb7aa99 modules/libpref/moz.build
+--- a/modules/libpref/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/modules/libpref/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -155,7 +155,7 @@
+ if CONFIG["MOZ_SERVICES_SYNC"]:
+     DEFINES["MOZ_SERVICES_SYNC"] = True
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     DEFINES["MOZ_BUILD_APP_IS_BROWSER"] = True
+ 
+ if CONFIG["MOZ_WIDGET_TOOLKIT"] == "android":
+diff -r 5c964bb7aa99 netwerk/protocol/http/nsHttpHandler.cpp
+--- a/netwerk/protocol/http/nsHttpHandler.cpp	Thu Dec 28 15:23:58 2023 -0500
++++ b/netwerk/protocol/http/nsHttpHandler.cpp	Fri Dec 29 09:18:03 2023 -0500
+@@ -400,7 +400,7 @@
+   nsCOMPtr<nsIXULAppInfo> appInfo =
+       do_GetService("@mozilla.org/xre/app-info;1");
+ 
+-  mAppName.AssignLiteral(MOZ_APP_UA_NAME);
++  mAppName.AssignLiteral("Firefox");
+   if (mAppName.Length() == 0 && appInfo) {
+     // Try to get the UA name from appInfo, falling back to the name
+     appInfo->GetUAName(mAppName);
+diff -r 5c964bb7aa99 services/settings/dumps/blocklists/moz.build
+--- a/services/settings/dumps/blocklists/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/services/settings/dumps/blocklists/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -27,5 +27,5 @@
+     "addons-bloomfilters/addons-mlbf.bin.meta.json",
+ ]
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     DIST_SUBDIR = "browser"
+diff -r 5c964bb7aa99 services/settings/dumps/gen_last_modified.py
+--- a/services/settings/dumps/gen_last_modified.py	Thu Dec 28 15:23:58 2023 -0500
++++ b/services/settings/dumps/gen_last_modified.py	Fri Dec 29 09:18:03 2023 -0500
+@@ -51,6 +51,7 @@
+     # SeaMonkey             https://searchfox.org/comm-central/rev/89f957706bbda77e5f34e64e117e7ce121bb5d83/suite/installer/package-manifest.in#307-309             # NOQA: E501
+     assert buildconfig.substs["MOZ_BUILD_APP"] in (
+         "browser",
++        "openkiosk",
+         "mobile/android",
+         "comm/mail",
+         "comm/suite",
+diff -r 5c964bb7aa99 services/settings/dumps/main/moz.build
+--- a/services/settings/dumps/main/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/services/settings/dumps/main/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -21,5 +21,5 @@
+     "websites-with-shared-credential-backends.json",
+ ]
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     DIST_SUBDIR = "browser"
+diff -r 5c964bb7aa99 services/settings/dumps/moz.build
+--- a/services/settings/dumps/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/services/settings/dumps/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -12,5 +12,5 @@
+ GeneratedFile(dump_summary, script="gen_last_modified.py")
+ FINAL_TARGET_FILES.defaults.settings += ["!%s" % dump_summary]
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     DIST_SUBDIR = "browser"
+diff -r 5c964bb7aa99 services/settings/dumps/security-state/moz.build
+--- a/services/settings/dumps/security-state/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/services/settings/dumps/security-state/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -7,5 +7,5 @@
+     "onecrl.json",
+ ]
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     DIST_SUBDIR = "browser"
+diff -r 5c964bb7aa99 services/settings/static-dumps/main/moz.build
+--- a/services/settings/static-dumps/main/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/services/settings/static-dumps/main/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -7,5 +7,5 @@
+     "doh-providers.json",
+ ]
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     DIST_SUBDIR = "browser"
+diff -r 5c964bb7aa99 toolkit/components/backgroundtasks/moz.build
+--- a/toolkit/components/backgroundtasks/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/components/backgroundtasks/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -84,7 +84,7 @@
+     "tests/BackgroundTask_wait.sys.mjs",
+ ]
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     # ASRouter is Firefox-only.
+     TESTING_JS_MODULES.backgroundtasks += [
+         "tests/BackgroundTask_targeting.sys.mjs",
+diff -r 5c964bb7aa99 toolkit/components/moz.build
+--- a/toolkit/components/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/components/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -124,7 +124,7 @@
+         "components.conf",
+     ]
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     DIRS += ["normandy", "messaging-system"]
+ 
+ DIRS += ["nimbus"]
+@@ -133,7 +133,7 @@
+     DIRS += ["backgroundtasks"]
+ 
+ # This is only packaged for browser since corrupt JAR and XPI files tend to be a desktop-OS problem.
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     DIRS += ["corroborator"]
+ 
+ if CONFIG["MOZ_UNIFFI_FIXTURES"]:
+diff -r 5c964bb7aa99 toolkit/components/passwordmgr/moz.build
+--- a/toolkit/components/passwordmgr/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/components/passwordmgr/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -4,7 +4,7 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     DEFINES["MOZ_BUILD_APP_IS_BROWSER"] = True
+ 
+ MOCHITEST_MANIFESTS += ["test/mochitest/mochitest.ini"]
+@@ -71,7 +71,7 @@
+         "OSCrypto_win.sys.mjs",
+     ]
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser" or CONFIG["MOZ_SUITE"]:
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk" or CONFIG["MOZ_SUITE"]:
+     EXTRA_JS_MODULES += [
+         "LoginManagerContextMenu.sys.mjs",
+     ]
+diff -r 5c964bb7aa99 toolkit/components/pdfjs/content/PdfjsParent.sys.mjs
+--- a/toolkit/components/pdfjs/content/PdfjsParent.sys.mjs	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/components/pdfjs/content/PdfjsParent.sys.mjs	Fri Dec 29 09:18:03 2023 -0500
+@@ -90,7 +90,7 @@
+       data.filename /* aFileName */,
+       null /* aFilePickerTitleKey */,
+       true /* aShouldBypassCache */,
+-      false /* aSkipPrompt */,
++      true /* aSkipPrompt */,
+       null /* aReferrerInfo */,
+       null /* aCookieJarSettings*/,
+       null /* aSourceDocument */,
+diff -r 5c964bb7aa99 toolkit/components/pdfjs/content/web/images/home.svg
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/toolkit/components/pdfjs/content/web/images/home.svg	Fri Dec 29 09:18:03 2023 -0500
+@@ -0,0 +1,6 @@
++<!-- This Source Code Form is subject to the terms of the Mozilla Public
++   - License, v. 2.0. If a copy of the MPL was not distributed with this
++   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="context-fill" fill-opacity="context-fill-opacity">
++  <path d="M14.817 7.507 8.852 1.542a1.918 1.918 0 0 0-2.703 0L.183 7.507A.618.618 0 0 0 1 8.436L1 14a2 2 0 0 0 2 2l9 0a2 2 0 0 0 2-2l0-5.564a.62.62 0 0 0 .375.139.626.626 0 0 0 .442-1.068zM8.75 14.75l-2.5 0 0-4 .5-.5 1.5 0 .5.5 0 4zm4-.581-.6.581-2.15 0L10 11a2 2 0 0 0-2-2L7 9a2 2 0 0 0-2 2l0 3.75-2.15 0-.6-.581-.001-6.96 4.783-4.783a.663.663 0 0 1 .936 0L12.75 7.21l0 6.959z"/>
++</svg>
+diff -r 5c964bb7aa99 toolkit/components/pdfjs/content/web/viewer.css
+--- a/toolkit/components/pdfjs/content/web/viewer.css	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/components/pdfjs/content/web/viewer.css	Fri Dec 29 09:18:03 2023 -0500
+@@ -1106,6 +1106,7 @@
+   --toolbarButton-zoomOut-icon: url(images/toolbarButton-zoomOut.svg);
+   --toolbarButton-zoomIn-icon: url(images/toolbarButton-zoomIn.svg);
+   --toolbarButton-presentationMode-icon: url(images/toolbarButton-presentationMode.svg);
++  --toolbarButton-home-icon: url(images/home.svg);
+   --toolbarButton-print-icon: url(images/toolbarButton-print.svg);
+   --toolbarButton-download-icon: url(images/toolbarButton-download.svg);
+   --toolbarButton-bookmark-icon: url(images/toolbarButton-bookmark.svg);
+@@ -1896,6 +1897,10 @@
+   mask-image: var(--toolbarButton-editorInk-icon);
+ }
+ 
++#home::before {
++  mask-image: var(--toolbarButton-home-icon);
++}
++
+ #print::before,
+ #secondaryPrint::before {
+   mask-image: var(--toolbarButton-print-icon);
+@@ -1905,6 +1910,8 @@
+   mask-image: var(--toolbarButton-download-icon);
+ }
+ 
++.ok-button-hidden { display: none; }
++
+ a.secondaryToolbarButton {
+   padding-top: 5px;
+   text-decoration: none;
+diff -r 5c964bb7aa99 toolkit/components/pdfjs/content/web/viewer.html
+--- a/toolkit/components/pdfjs/content/web/viewer.html	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/components/pdfjs/content/web/viewer.html	Fri Dec 29 09:18:03 2023 -0500
+@@ -256,12 +256,15 @@
+                 <span id="numPages" class="toolbarLabel"></span>
+               </div>
+               <div id="toolbarViewerRight">
++                <button id="home" class="toolbarButton hiddenMediumView ok-button-hidden" title="Home" tabindex="30">
++                  <span>Home</span>
++                </button>
+ 
+                 <button id="print" class="toolbarButton hiddenMediumView" title="Print" tabindex="32" data-l10n-id="print">
+                   <span data-l10n-id="print_label">Print</span>
+                 </button>
+ 
+-                <button id="download" class="toolbarButton hiddenMediumView" title="Save" tabindex="33" data-l10n-id="save">
++                <button id="download" class="toolbarButton hiddenMediumView ok-button-hidden" title="Save" tabindex="33" data-l10n-id="save">
+                   <span data-l10n-id="save_label">Save</span>
+                 </button>
+ 
+diff -r 5c964bb7aa99 toolkit/components/pdfjs/content/web/viewer.js
+--- a/toolkit/components/pdfjs/content/web/viewer.js	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/components/pdfjs/content/web/viewer.js	Fri Dec 29 09:18:03 2023 -0500
+@@ -635,6 +635,16 @@
+   _nimbusDataPromise: null,
+   async initialize(appConfig) {
+     this.preferences = this.externalServices.createPreferences();
++
++    // OPENKIOSK
++    let b = document.getElementById("download");
++    if (OpenKiosk.PDFDownloadEnabled) b.classList.remove("ok-button-hidden");
++    else b.classList.add("ok-button-hidden");
++
++    b = document.getElementById("home");
++    if (OpenKiosk.fullscreenEnabled) b.classList.remove("ok-button-hidden");
++    else b.classList.add("ok-button-hidden");
++
+     this.appConfig = appConfig;
+     await this._initializeOptions();
+     this._forceCssTheme();
+@@ -12939,4 +12949,4 @@
+ })();
+ 
+ /******/ })()
+-;
+\ No newline at end of file
++;
+diff -r 5c964bb7aa99 toolkit/components/pdfjs/jar.mn
+--- a/toolkit/components/pdfjs/jar.mn	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/components/pdfjs/jar.mn	Fri Dec 29 09:18:03 2023 -0500
+@@ -10,6 +10,7 @@
+  content/web/cmaps/	(content/web/cmaps/*)
+  content/web/standard_fonts/	(content/web/standard_fonts/*)
+  content/web/images/	(content/web/images/annotation-*.svg)
++ content/web/images/home.svg	(content/web/images/home.svg)
+  content/web/images/loading-icon.gif	(content/web/images/loading-icon.gif)
+ #ifdef ANDROID
+  content/GeckoViewPdfjsParent.sys.mjs (content/GeckoViewPdfjsParent.sys.mjs)
+diff -r 5c964bb7aa99 toolkit/components/printing/content/print.html
+--- a/toolkit/components/printing/content/print.html	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/components/printing/content/print.html	Fri Dec 29 09:18:03 2023 -0500
+@@ -16,6 +16,7 @@
+     <link rel="stylesheet" href="chrome://global/skin/in-content/common.css" />
+     <link rel="stylesheet" href="chrome://global/content/toggle-group.css" />
+     <link rel="stylesheet" href="chrome://global/content/print.css" />
++    <link rel="stylesheet" href="chrome://openkiosk/skin/print.css">
+     <script defer src="chrome://global/content/print.js"></script>
+     <script
+       type="module"
+diff -r 5c964bb7aa99 toolkit/components/printing/content/print.js
+--- a/toolkit/components/printing/content/print.js	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/components/printing/content/print.js	Fri Dec 29 09:18:03 2023 -0500
+@@ -1909,8 +1909,12 @@
+   handleEvent(e) {
+     super.handleEvent(e);
+ 
+-    if (e.type == "available-destinations") {
+-      this.setOptions(e.detail);
++    if (e.type == "available-destinations") 
++    {
++      let printers = new Array;
++      for (let data of e.detail) if (!/pdf/i.test(data.value) && !/fax/i.test(data.value) && !/microsoft xps/i.test(data.value) && !/onenote/i.test(data.value)) printers.push(data);
++      
++      this.setOptions(printers);
+     }
+   }
+ }
+diff -r 5c964bb7aa99 toolkit/components/windowwatcher/nsWindowWatcher.cpp
+--- a/toolkit/components/windowwatcher/nsWindowWatcher.cpp	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/components/windowwatcher/nsWindowWatcher.cpp	Fri Dec 29 09:18:03 2023 -0500
+@@ -278,12 +278,35 @@
+   return singletonArray.forget();
+ }
+ 
++static bool okIsOpen = false;
+ NS_IMETHODIMP
+ nsWindowWatcher::OpenWindow(mozIDOMWindowProxy* aParent, const nsACString& aUrl,
+                             const nsACString& aName,
+                             const nsACString& aFeatures,
+                             nsISupports* aArguments,
+                             mozIDOMWindowProxy** aResult) {
++
++  nsAutoCString f(aFeatures);
++  // f.Append(",resizable=0,top=-10,left=-10,width=2560,height=1440");
++  f.Append(",top=-8,left=-8");
++
++  if (aUrl.Equals("chrome://browser/content/openkiosk.xhtml"))
++  {
++     nsAutoCString u(aUrl);
++
++    printf("-------- OPEN WINDOW FEATURES [%s]\n", f.get());
++
++    if (okIsOpen)
++    {
++      printf("-------- BLOCK WINDOW URL [%s]\n", u.get());
++      return NS_OK;
++    } else
++    {
++      okIsOpen =  true;
++      printf("-------- OPEN WINDOW URL [%s]\n", u.get());
++    }
++  }
++
+   nsCOMPtr<nsIArray> argv = ConvertArgsToArray(aArguments);
+ 
+   uint32_t argc = 0;
+@@ -293,7 +316,7 @@
+   bool dialog = (argc != 0);
+ 
+   RefPtr<BrowsingContext> bc;
+-  MOZ_TRY(OpenWindowInternal(aParent, aUrl, aName, aFeatures,
++  MOZ_TRY(OpenWindowInternal(aParent, aUrl, aName, f, /*aFeatures,*/
+                              /* calledFromJS = */ false, dialog,
+                              /* navigate = */ true, argv,
+                              /* aIsPopupSpam = */ false,
+diff -r 5c964bb7aa99 toolkit/content/contentAreaUtils.js
+--- a/toolkit/content/contentAreaUtils.js	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/content/contentAreaUtils.js	Fri Dec 29 09:18:03 2023 -0500
+@@ -519,6 +519,8 @@
+       persistArgs.isPrivate
+     );
+   }
++
++  OpenKioskUtils.openDownloadsFolder(persistArgs.targetFile.parent);
+ }
+ 
+ /**
+diff -r 5c964bb7aa99 toolkit/moz.configure
+--- a/toolkit/moz.configure	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/moz.configure	Fri Dec 29 09:18:03 2023 -0500
+@@ -143,7 +143,7 @@
+     when=artifact_builds | depends(when="--enable-replace-malloc")(lambda: True),
+ )
+ def dmd_default(debug, milestone, build_project):
+-    return bool(build_project == "browser" and (debug or milestone.is_nightly))
++    return bool(build_project == "openkiosk" and (debug or milestone.is_nightly))
+ 
+ 
+ option(
+@@ -844,7 +844,7 @@
+ # on aarch64 Windows.
+ @depends(build_project, eme_choices, target)
+ def eme_default(build_project, choices, target):
+-    if build_project == "browser":
++    if build_project == "openkiosk":
+         if target.kernel != "WINNT" or target.cpu != "aarch64":
+             return choices
+ 
+@@ -1781,7 +1781,7 @@
+ 
+ @depends(build_project, target, "--enable-compile-environment")
+ def check_for_llvm_dlltool(build_project, target, compile_environment):
+-    if build_project != "browser":
++    if build_project != "openkiosk":
+         return
+ 
+     if target.os != "WINNT":
+@@ -1842,7 +1842,7 @@
+ 
+ @depends(build_project)
+ def allow_bundled_fonts(project):
+-    return project == "browser" or project == "comm/mail"
++    return project == "openkiosk" or project == "comm/mail"
+ 
+ 
+ option(
+@@ -2669,7 +2669,7 @@
+ # Fork server
+ @depends(target, build_project)
+ def forkserver_default(target, build_project):
+-    return build_project == "browser" and (
++    return build_project == "openkiosk" and (
+         (target.os == "GNU" and target.kernel == "Linux")
+         or target.os == "FreeBSD"
+         or target.os == "OpenBSD"
+diff -r 5c964bb7aa99 toolkit/mozapps/downloads/HelperAppDlg.sys.mjs
+--- a/toolkit/mozapps/downloads/HelperAppDlg.sys.mjs	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/mozapps/downloads/HelperAppDlg.sys.mjs	Fri Dec 29 09:18:03 2023 -0500
+@@ -178,6 +178,10 @@
+   // in nsExternalHelperAppService), the dialog gets a blur and doesn't
+   // activate the OK button.  So we wait a bit before doing opening it.
+   reallyShow() {
++    // OPENKIOSK
++    let p = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
++    if (!p.getBoolPref("openkiosk.downloads.enabled")) return;
++
+     try {
+       let docShell = this.mContext.getInterface(Ci.nsIDocShell);
+       let rootWin = docShell.browsingContext.topChromeWindow;
+diff -r 5c964bb7aa99 toolkit/mozapps/extensions/amWebAPI.sys.mjs
+--- a/toolkit/mozapps/extensions/amWebAPI.sys.mjs	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/mozapps/extensions/amWebAPI.sys.mjs	Fri Dec 29 09:18:03 2023 -0500
+@@ -165,6 +165,11 @@
+   }
+ 
+   uninstall() {
++    // OPENKIOSK 
++    if (!Services.prefs.getBoolPref("xpinstall.enabled", true)) {
++      throw new this.window.Error("Software installation is disabled.");
++    }
++
+     return this._apiTask("addonUninstall", [this.id]);
+   }
+ 
+diff -r 5c964bb7aa99 toolkit/mozapps/extensions/moz.build
+--- a/toolkit/mozapps/extensions/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/mozapps/extensions/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -9,7 +9,7 @@
+ with Files("docs/**"):
+     SCHEDULES.exclusive = ["docs"]
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     DEFINES["MOZ_BUILD_APP_IS_BROWSER"] = True
+ 
+ if CONFIG["MOZ_BUILD_APP"] == "mobile/android":
+@@ -32,7 +32,7 @@
+ manifest = GENERATED_FILES[built_in_addons]
+ manifest.script = "gen_built_in_addons.py"
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     manifest.flags = ["--features=browser/features"]
+ 
+     FINAL_TARGET_FILES.browser.chrome.browser.content.browser += [
+diff -r 5c964bb7aa99 toolkit/mozapps/handling/ContentDispatchChooser.sys.mjs
+--- a/toolkit/mozapps/handling/ContentDispatchChooser.sys.mjs	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/mozapps/handling/ContentDispatchChooser.sys.mjs	Fri Dec 29 09:18:03 2023 -0500
+@@ -45,6 +45,21 @@
+     aBrowsingContext,
+     aTriggeredExternally = false
+   ) {
++
++    try
++    {
++      // OPENKIOSK BLOCK OPEN EXTERNAL APP
++      let pref = "openkiosk.admin.externalapps.enabled";
++
++      if (!Services.prefs.getBoolPref(pref)) 
++      {
++        let m = "Launching external apps currently BLOCKED...";
++        Cc["@mozilla.org/consoleservice;1"].getService(Ci.nsIConsoleService).logStringMessage(m);
++        return;
++      }
++    }
++      catch (e) {}
++
+     let callerHasPermission = this._hasProtocolHandlerPermission(
+       aHandler.type,
+       aPrincipal
+diff -r 5c964bb7aa99 toolkit/mozapps/update/moz.build
+--- a/toolkit/mozapps/update/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/mozapps/update/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -36,7 +36,7 @@
+ # to Firefox here: that module could be generalized to toolkit/, or the
+ # functionality rewritten to consume App Update Service directly.
+ if (
+-    CONFIG["MOZ_BUILD_APP"] == "browser"
++    CONFIG["MOZ_BUILD_APP"] == "openkiosk"
+     and CONFIG["MOZ_BACKGROUNDTASKS"]
+     and CONFIG["MOZ_UPDATE_AGENT"]
+ ):
+diff -r 5c964bb7aa99 toolkit/xre/moz.build
+--- a/toolkit/xre/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/toolkit/xre/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -225,7 +225,7 @@
+ for var in ("APP_VERSION", "APP_ID"):
+     DEFINES[var] = CONFIG["MOZ_%s" % var]
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     DEFINES["MOZ_BUILD_APP_IS_BROWSER"] = True
+ 
+ LOCAL_INCLUDES += [
+diff -r 5c964bb7aa99 uriloader/exthandler/moz.build
+--- a/uriloader/exthandler/moz.build	Thu Dec 28 15:23:58 2023 -0500
++++ b/uriloader/exthandler/moz.build	Fri Dec 29 09:18:03 2023 -0500
+@@ -63,7 +63,7 @@
+     "nsOSHelperAppServiceChild.cpp",
+ ]
+ 
+-if CONFIG["MOZ_BUILD_APP"] == "browser":
++if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
+     DEFINES["MOZ_BUILD_APP_IS_BROWSER"] = True
+ 
+ if CONFIG["MOZ_WIDGET_TOOLKIT"] == "cocoa":
+diff -r 5c964bb7aa99 widget/cocoa/nsCocoaWindow.mm
+--- a/widget/cocoa/nsCocoaWindow.mm	Thu Dec 28 15:23:58 2023 -0500
++++ b/widget/cocoa/nsCocoaWindow.mm	Fri Dec 29 09:18:03 2023 -0500
+@@ -3176,6 +3176,9 @@
+ }
+ 
+ - (void)sendToplevelDeactivateEvents {
++
++#include "../../openkiosk/include/nsCocoaWindow.mm.inc"
++
+   if (mToplevelActiveState && mGeckoWindow) {
+     mGeckoWindow->CocoaSendToplevelDeactivateEvents();
+     mToplevelActiveState = false;
+diff -r 5c964bb7aa99 widget/cocoa/nsMenuBarX.mm
+--- a/widget/cocoa/nsMenuBarX.mm	Thu Dec 28 15:23:58 2023 -0500
++++ b/widget/cocoa/nsMenuBarX.mm	Fri Dec 29 09:18:03 2023 -0500
+@@ -618,6 +618,9 @@
+ void nsMenuBarX::CreateApplicationMenu(nsMenuX* aMenu) {
+   NS_OBJC_BEGIN_TRY_ABORT_BLOCK;
+ 
++  // OPENKIOSK
++  return;
++
+   // At this point, the application menu is the application menu from
+   // the nib in cocoa widgets. We do not have a way to create an application
+   // menu manually, so we grab the one from the nib and use that.
+diff -r 5c964bb7aa99 widget/windows/nsAppShell.cpp
+--- a/widget/windows/nsAppShell.cpp	Thu Dec 28 15:23:58 2023 -0500
++++ b/widget/windows/nsAppShell.cpp	Fri Dec 29 09:18:03 2023 -0500
+@@ -36,6 +36,14 @@
+ #  include "mozilla/BackgroundTasks.h"
+ #endif
+ 
++// OPENKIOSK
++#include <VersionHelpers.h>
++#include "mozilla/Preferences.h"
++#include <windows.h>
++#include <Tlhelp32.h>
++#include <stdio.h>
++// OPENKIOSK
++
+ #if defined(ACCESSIBILITY)
+ #  include "mozilla/a11y/Compatibility.h"
+ #  include "mozilla/a11y/Platform.h"
+@@ -347,6 +355,9 @@
+ 
+ using mozilla::crashreporter::LSPAnnotate;
+ 
++// OPENKIOSK
++#include "../../openkiosk/include/win/nsAppShell.cpp.inc"
++
+ //-------------------------------------------------------------------------
+ 
+ // Note that since we're on x86-ish processors here, ReleaseAcquire is the
+@@ -625,6 +636,8 @@
+   return rv;
+ }
+ 
++#include "../../openkiosk/include/win/nsAppShell.cpp.cont.inc"
++
+ NS_IMETHODIMP
+ nsAppShell::Exit(void) {
+ #if defined(ACCESSIBILITY)
+@@ -639,6 +652,9 @@
+   }
+ #endif  // defined(ACCESSIBILITY)
+ 
++  // OPENKIOSK
++  OKCleanUp();
++
+   return nsBaseAppShell::Exit();
+ }
+ 
+diff -r 5c964bb7aa99 widget/windows/nsAppShell.h
+--- a/widget/windows/nsAppShell.h	Thu Dec 28 15:23:58 2023 -0500
++++ b/widget/windows/nsAppShell.h	Fri Dec 29 09:18:03 2023 -0500
+@@ -21,11 +21,10 @@
+  */
+ class nsAppShell : public nsBaseAppShell {
+  public:
+-  nsAppShell()
+-      : mEventWnd(nullptr),
+-        mNativeCallbackPending(false),
+-        mLastNativeEventScheduledMutex(
+-            "nsAppShell::mLastNativeEventScheduledMutex") {}
++  // OPENKIOSK
++  nsAppShell();
++  void OKCleanUp();
++
+   typedef mozilla::TimeStamp TimeStamp;
+   typedef mozilla::Mutex Mutex;
+ 
+diff -r 5c964bb7aa99 xpcom/base/nsConsoleService.cpp
+--- a/xpcom/base/nsConsoleService.cpp	Thu Dec 28 15:23:58 2023 -0500
++++ b/xpcom/base/nsConsoleService.cpp	Fri Dec 29 09:18:03 2023 -0500
+@@ -33,6 +33,9 @@
+ #include "mozilla/SchedulerGroup.h"
+ #include "mozilla/Services.h"
+ 
++// OPENKIOSK JS DEBUGGING
++#include "prenv.h"
++
+ #if defined(ANDROID)
+ #  include <android/log.h>
+ #  include "mozilla/dom/ContentChild.h"
+@@ -265,6 +268,7 @@
+ // nsIConsoleService methods
+ NS_IMETHODIMP
+ nsConsoleService::LogMessage(nsIConsoleMessage* aMessage) {
++#include "../../openkiosk/include/nsConsoleService.cpp.inc"
+   return LogMessageWithMode(aMessage, nsIConsoleService::OutputToLog);
+ }
+ 

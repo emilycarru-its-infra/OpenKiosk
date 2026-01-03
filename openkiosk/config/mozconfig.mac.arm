@@ -1,0 +1,37 @@
+# OSX 64 Bit Build
+
+# ok custom variables
+. $topsrcdir/openkiosk/config/common
+
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../opt-openkiosk-aarch64-apple-darwin
+
+mk_add_options MOZ_MAKE_FLAGS="-s -j8"
+
+ac_add_options --enable-application=openkiosk
+
+ac_add_options --enable-update-channel=release
+ac_add_options --enable-official-branding
+ac_add_options --enable-js-shell
+
+# Disable crash reporter
+ac_add_options --disable-crashreporter
+
+# ac_add_options --with-macos-sdk=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+
+# SPEEDS UP BUILD TIME
+ac_add_options --disable-tests
+
+# ENABLE BOOTSTRAP
+ac_add_options --enable-bootstrap
+
+export MOZILLA_OFFICIAL=1
+export BUILDING_RELEASE=1
+export MOZ_PACKAGE_JSSHELL=1
+
+mk_add_options AUTOCLOBBER=1
+
+# Disable Telemetry
+ac_add_options MOZ_TELEMETRY_REPORTING=
+ac_add_options MOZ_TELEMETRY_ON_BY_DEFAULT=
+ac_add_options MOZ_UPDATER=
+

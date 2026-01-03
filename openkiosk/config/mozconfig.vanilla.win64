@@ -1,0 +1,16 @@
+# Win Build
+
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../opt-ff-vanilla-@CONFIG_GUESS@
+
+# 64 bit
+ac_add_options --target=x86_64-pc-mingw32
+
+ac_add_options --enable-update-channel=release
+ac_add_options --enable-js-shell
+ac_add_options --enable-rust-simd
+ac_add_options --enable-official-branding
+ac_add_options --disable-tests
+
+ac_add_options MOZ_TELEMETRY_REPORTING=
+
+MOZILLA_OFFICIAL=1

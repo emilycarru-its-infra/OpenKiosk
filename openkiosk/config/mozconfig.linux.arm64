@@ -1,0 +1,60 @@
+# RASP PI
+
+# ok custom variables
+. $topsrcdir/openkiosk/config/common
+
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../opt-ok-@CONFIG_GUESS@
+
+mk_add_options MOZ_MAKE_FLAGS="-j6"
+
+# START CUSTOM
+ac_add_options --enable-application=openkiosk
+ac_add_options --enable-update-channel=esr
+ac_add_options --enable-update-channel=release
+ac_add_options --enable-official-branding
+ac_add_options --enable-js-shell
+ac_add_options --enable-default-toolkit=cairo-gtk3-wayland
+ac_add_options --with-unsigned-addon-scopes=app,system
+ac_add_options --disable-updater
+ac_add_options --enable-alsa
+
+# ac_add_options --with-system-libvpx
+# ac_add_options --with-system-zlib
+# ac_add_options --enable-system-ffi
+# ac_add_options --disable-bootstrap
+
+# Disable crash reporter
+ac_add_options --disable-crashreporter
+ac_add_options --enable-bootstrap
+ac_add_options --without-sysroot
+
+# SPEEDS UP BUILD TIME
+ac_add_options --disable-tests
+
+ac_add_options --host=x86_64-pc-linux-gnu
+ac_add_options --target=aarch64-linux-gnu
+
+export PKG_CONFIG="aarch64-linux-gnu-pkg-config"
+
+export MOZILLA_OFFICIAL=1
+export BUILDING_RELEASE=1
+export MOZ_PACKAGE_JSSHELL=1
+
+# GCC 10
+export CC="aarch64-linux-gnu-gcc-10"
+export CXX="aarch64-linux-gnu-g++-10"
+export AR="aarch64-linux-gnu-gcc-ar-10"
+
+export HOST_CC="x86_64-linux-gnu-gcc-10"
+export HOST_CXX="x86_64-linux-gnu-g++-10"
+export HOST_AR="x86_64-linux-gnu-gcc-ar"
+
+export RUSTC=$(rustup which rustc)
+export CARGO=$(rustup which cargo)
+
+unset MOZ_STDCXX_COMPAT
+
+export RUSTFLAGS=-Cembed-bitcode=yes
+
+mk_add_options AUTOCLOBBER=1
+

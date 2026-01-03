@@ -1,0 +1,85 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+include $(topsrcdir)/config/rules.mk
+
+# default target
+.DEFAULT_GOAL := set-version
+
+ifdef MAKENSISU
+
+# For Windows build the uninstaller during the application build since the
+# uninstaller is included with the application for mar file generation.
+libs::
+	$(MAKE) -C installer/windows uninstaller
+ifdef MOZ_MAINTENANCE_SERVICE
+	$(MAKE) -C installer/windows maintenanceservice_installer
+endif
+endif
+
+DATE_STAMP=$(shell date +"%Y-%m-%d")
+MSI=$(MOZ_APP_NAME)$(MOZ_APP_VERSION)-$(DATE_STAMP)-$(TARGET_CPU).msi
+OK_VERSION=$(shell cat $(topsrcdir)/openkiosk/config/okversion.txt)
+
+ifeq ($(TARGET_CPU),armv7)
+	GNU_STR="gnueabihf-"
+endif
+
+LINUX_TARGET=$(MOZ_APP_NAME)$(MOZ_APP_VERSION)-$(DATE_STAMP)-$(TARGET_CPU).tar.bz2
+
+run:
+ifeq ($(OS_ARCH),Linux)
+	@cd $(DIST)/bin; ./$(MOZ_APP_NAME) $(url);
+else
+ifeq ($(OS_ARCH),WINNT)
+	@cd $(DIST)/bin; ./$(MOZ_APP_NAME) $(url);
+else
+	@cd $(DIST)/; ./$(MOZ_APP_NAME).app/Contents/MacOS/./$(MOZ_APP_NAME) $(url);
+endif
+endif
+
+run-verbose:
+ifeq ($(OS_ARCH),Linux)
+	@export OPENKIOSK_JAVASCRIPT_ERROR=1; cd $(DIST)/bin; ./$(MOZ_APP_NAME) $(url);
+else
+ifeq ($(OS_ARCH),WINNT)
+	@export OPENKIOSK_JAVASCRIPT_ERROR=1; cd $(DIST)/bin; ./$(MOZ_APP_NAME) $(url) -attach-console;
+else
+	@export OPENKIOSK_JAVASCRIPT_ERROR=1; cd $(DIST)/; ./$(MOZ_APP_NAME).app/Contents/MacOS/./$(MOZ_APP_NAME) $(url);
+endif
+endif
+
+ifeq ($(OS_ARCH),WINNT)
+msi: redist 
+	$(MAKE) -C installer/;
+	$(MAKE) -C installer/windows/wix installer;
+	cp $(DIST)/$(MOZ_APP_NAME)$(MOZ_APP_VERSION)-$(DATE_STAMP)-$(TARGET_CPU).msi $(topsrcdir)/../scripts/win/installer/$(MSI);
+
+redist:
+	@cp "$(topsrcdir)/../scripts/win/redist/vcruntime140_1.dll" $(DIST)/bin/;
+
+msi-internal:
+	$(MAKE) -C installer/windows/msi msi-installer;
+
+endif
+
+distro:
+	rm -f $(DIST)/*.tar.bz2;
+	$(MAKE) -C installer;
+ifeq ($(OS_ARCH),Linux)
+	mv $(DIST)/$(MOZ_APP_NAME)-$(MOZ_APP_VERSION).en-US.linux-$(GNU_STR)$(TARGET_CPU).tar.bz2 $(DIST)/$(LINUX_TARGET);
+	rm -rf $(topsrcdir)/../scripts/linux/installer/*;
+	mkdir -p $(topsrcdir)/../scripts/linux/installer/;
+	cp $(DIST)/$(LINUX_TARGET) $(topsrcdir)/../scripts/linux/installer/;
+endif
+
+set-version:
+	cd $(topsrcdir)/openkiosk/; \
+	scripts/./set-about.sh "$(OK_VERSION)";
+	
+test:
+	@echo "CPU: [$(TARGET_CPU)]";
+	@echo "LINUX_TARGET: [$(LINUX_TARGET)]";
+
+

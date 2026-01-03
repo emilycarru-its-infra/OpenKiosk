@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<?include $(sys.CURRENTDIR)\defs.wxi ?>
+
+<WixLocalization Culture="en-US" Codepage="1252" xmlns="http://wixtoolset.org/schemas/v4/wxl">
+   <String Id="WelcomeDlg_Title" Value="[ProductName] $(var.version) Setup" />
+   <String Id="MaintenanceWelcomeDlg_Title" Value="[ProductName] $(var.version) Setup" />
+   <String Id="LicenseAgreementDlg_Title" Value="[ProductName] $(var.version) Setup" />
+   <String Id="InstallDirDlg_Title" Value="[ProductName] $(var.version) Setup" />
+   <String Id="VerifyReadyDlg_Title" Value="[ProductName] $(var.version) Setup" />
+   <String Id="ProgressDlg_Title" Value="[ProductName] $(var.version) Setup" />
+   <String Id="ExitDialog_Title" Value="[ProductName] $(var.version) Setup" />
+   <String Id="MaintenanceTypeDlg_Title" Value="[ProductName] $(var.version) Setup" />
+   <String Id="ExitDialogTitle" Value="{\WixUI_Font_Bigger}Completed the [ProductName] $(var.version) Setup Wizard" />
+   <String Id="MaintenanceWelcomeDlgTitle" Value="{\WixUI_Font_Bigger}Welcome to the [ProductName] $(var.version) Setup Wizard" />
+   <String Id="PrepareDlgTitle" Value="{\WixUI_Font_Bigger}Welcome to the [ProductName] $(var.version) Setup Wizard" />
+   <String Id="WelcomeDlgTitle" Value="{\WixUI_Font_Bigger}Welcome to the [ProductName] $(var.version) Setup Wizard" />
+</WixLocalization>

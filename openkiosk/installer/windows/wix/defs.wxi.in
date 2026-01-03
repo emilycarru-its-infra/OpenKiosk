@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  <?define name = "OpenKiosk"?>
+  <?define exe = "OpenKiosk.exe"?>
+  <?define icon = "openkiosk.ico"?>
+  <?define version = "__VERSION__"?>
+  <?define publisher = "MDG"?>
+  <?define guid = "__GUID__"?>
+</Include>

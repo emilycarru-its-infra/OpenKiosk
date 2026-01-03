@@ -1,0 +1,21 @@
+######################
+# Spanish
+
+es-ES.jar:
+% locale openkiosk es-ES %locale/%openkiosk/
+    locale/es-ES/openkiosk/about.dtd                        (about.dtd)
+    locale/es-ES/openkiosk/openkiosk.dtd                    (openkiosk.dtd)
+    locale/es-ES/openkiosk/preferences.dtd                  (preferences.dtd)
+    locale/es-ES/openkiosk/admin.properties                 (admin.properties)
+    locale/es-ES/openkiosk/preferences.properties           (preferences.properties)
+    locale/es-ES/openkiosk/session.properties               (session.properties)
+
+[localization] es-ES.jar:
+    openkiosk/openkiosk.ftl                                 (branding/openkiosk.ftl)
+
+es-ES.jar:
+% locale branding es-ES %locale/%branding/
+    locale/es-ES/branding/brand.dtd                         (branding/brand.dtd)
+    locale/es-ES/branding/brand.properties                  (branding/brand.properties)
+
+######################

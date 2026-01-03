@@ -1,0 +1,24 @@
+DEPTH=../..
+topsrcdir=@top_srcdir@
+srcdir=@srcdir@
+VPATH=@srcdir@
+
+# Install Linux Scripts
+
+include $(DEPTH)/config/autoconf.mk
+
+include $(topsrcdir)/config/rules.mk
+
+ifeq ($(OS_ARCH), Linux)
+libs::
+	cp $(topsrcdir)/openkiosk/scripts/dconf.sh $(DIST)/bin;
+	cp $(topsrcdir)/openkiosk/scripts/gsettings.sh $(DIST)/bin;
+	cp $(topsrcdir)/openkiosk/scripts/install-icon.sh $(DIST)/bin;
+	cp $(topsrcdir)/$(MOZ_BRANDING_DIRECTORY)/openkiosk.png $(DIST)/bin/;
+	chmod 755 $(DIST)/bin/dconf.sh;
+	chmod 755 $(DIST)/bin/gsettings.sh;
+	chmod 755 $(DIST)/bin/install-icon.sh;
+endif
+
+	
+

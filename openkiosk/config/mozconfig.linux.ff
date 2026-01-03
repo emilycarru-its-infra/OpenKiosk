@@ -1,0 +1,25 @@
+# Linux 64 Bit Build
+
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../opt-ff-@CONFIG_GUESS@
+
+mk_add_options MOZ_MAKE_FLAGS="-s -j8"
+
+ac_add_options --enable-application=browser
+
+ac_add_options --enable-update-channel=release
+ac_add_options --enable-official-branding
+ac_add_options --enable-js-shell
+
+# Disable crash reporter
+ac_add_options --disable-crashreporter
+
+# SPEEDS UP BUILD TIME
+ac_add_options --disable-tests
+
+export MOZILLA_OFFICIAL=1
+export BUILDING_RELEASE=1
+export MOZ_PACKAGE_JSSHELL=1
+
+# Disable Telemetry
+ac_add_options MOZ_TELEMETRY_REPORTING=
+

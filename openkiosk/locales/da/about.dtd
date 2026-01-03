@@ -1,0 +1,19 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<!ENTITY about.version                "Version">
+
+<!ENTITY about.relnotes.beforeTheLink "L&#230;s ">
+<!ENTITY about.relnotes.linkTitle     "produktbem&#230;rkningerne">
+<!ENTITY about.relnotes.afterTheLink  " for denne version.">
+
+<!ENTITY about.buildconfig.beforeTheLink "Se ">
+<!ENTITY about.buildconfig.linkTitle     "build konfigurationen">
+<!ENTITY about.buildconfig.afterTheLink  " brugt i denne version.">
+
+<!ENTITY about.buildIdentifier        "User Agent: ">
+
+<!ENTITY locale.dir "ltr">
+
+<!ENTITY beta.version "Release">
+

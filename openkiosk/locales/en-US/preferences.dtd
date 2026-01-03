@@ -1,0 +1,113 @@
+
+<!ENTITY ok.homepage.description                 "(Ensure that you are not using a redirect url for session reset to function correctly.)">
+<!ENTITY ok.label                                "OpenKiosk">
+<!ENTITY ok.screens.label                        "Screens">
+<!ENTITY ok.filters.label                        "Filters">
+<!ENTITY ok.session.label                        "Session">
+<!ENTITY ok.customize.label                      "Customize">
+<!ENTITY ok.admin.label                          "Admin">
+<!ENTITY ok.about.label                          "About">
+<!ENTITY ok.attract.label                        "Attract Screen">
+<!ENTITY ok.attract.enable.label                 "Enable Attract Screen">
+<!ENTITY ok.attract.description                  "When enabled, this setting will override the homepage and load on startup and session reset. The URL entered above will be loaded in full screen mode. When the user clicks on a link, the toolbar will appear.">
+<!ENTITY ok.full.label                           "Full Screen">
+<!ENTITY ok.full.enable.label                    "Enable Full Screen">
+<!ENTITY ok.full.tabs.enable.label               "Enable Tabs">
+<!ENTITY ok.full.description                     "When enabled, OpenKiosk will always be displayed in fullscreen with no toolbars.">
+<!ENTITY ok.redirect.label                       "Redirect Screen">
+<!ENTITY ok.redirect.enable.label                "Enable Redirect Screen">
+<!ENTITY ok.redirect.description                 "When enabled, this page will be loaded when a blocked page is encountered.">
+<!ENTITY ok.url.filters.label                    "Filter URLs">
+<!ENTITY ok.url.filters.enable.label             "Enable URL Filters">
+<!ENTITY ok.whitelist.label                      "Whitelist">
+<!ENTITY ok.blacklist.label                      "Blacklist">
+<!ENTITY ok.filters.description                  "If you enable filters, the rules here will be used to determine which url's are allowed or blocked. Once you edit this field a save button will appear. Or you can choose to load an existing filters file.">
+<!ENTITY ok.filters.warn.description             "NOTE: URL filters will not block advertisements. It is highly recommended you install Add-Block-Plus from Add-ons section.">
+<!ENTITY ok.filters.button                       "Choose...">
+<!ENTITY ok.javascript.label                     "Enable Javascript">
+<!ENTITY ok.javascript.enable.label              "If unchecked, this setting will completely disable javascript overriding any javascript specified in the filters above.">
+<!ENTITY ok.protocols.enable.label               "Enable Network Protocol Filters">
+<!ENTITY ok.protocol.about.label                 "about:">
+<!ENTITY ok.protocol.blob.label                  "blob:">
+<!ENTITY ok.protocol.data.label                  "data:">
+<!ENTITY ok.protocol.email.label                 "mailto:">
+<!ENTITY ok.protocol.file.label                  "file:">
+<!ENTITY ok.protocol.ftp.label                   "ftp:">
+<!ENTITY ok.protocol.res.label                   "resource:">
+<!ENTITY ok.protocol.sms.label                   "sms:">
+<!ENTITY ok.protocol.tel.label                   "tel:">
+<!ENTITY ok.protocol.viewsource.label            "view-source:">
+<!ENTITY ok.protocol.javascript.label            "javascript:">
+<!ENTITY ok.session.reset.label                  "Reset Session">
+<!ENTITY ok.session.inactive.label               "Set Inactive Terminal">
+<!ENTITY ok.session.after.label                  "Reset after">
+<!ENTITY ok.session.min.label                    "minutes and">
+<!ENTITY ok.session.sec.label                    "seconds">
+<!ENTITY ok.session.warn.label                   "Enable Countdown">
+<!ENTITY ok.session.warn.manual.label            "Enable Countdown on Manual Reset">
+<!ENTITY ok.session.countdown.label              "Show Countdown for ">
+<!ENTITY ok.session.cache.label                  "Cache">
+<!ENTITY ok.session.disk.enable.label            "Enable Disk Cache">
+<!ENTITY ok.session.disk.label                   "Enabling disk cache permits cached items to persist across sessions.">
+<!ENTITY ok.session.history.enable.label         "Preserve Session History">
+<!ENTITY ok.session.history.label                "Enabling session history permits back/forward, visited links, and urlbar history to persist across sessions.">
+<!ENTITY ok.session.cookies.enable.label         "Preserve Session Cookies">
+<!ENTITY ok.session.cookies.label                "Enabling session cookies permits web site cookies to persist across sessions.">
+<!ENTITY ok.session.aup.label                    "Acceptable Use Policy (AUP)">
+<!ENTITY ok.session.aup.enable.label             "Enable AUP">
+<!ENTITY ok.session.aup.description              "Enabling this feature prompts the user for each session to accept your terms of use page. Once accepted, the user will not be prompted again during the session. If declined, they will be prompted every time to access a web page other than the home, attract, or redirect pages.">
+<!ENTITY ok.session.aup.url.description          "AUP URL">
+<!ENTITY ok.osk.label                            "OSK">
+<!ENTITY ok.osk.enable.label                     "On Screen Keyboard">
+<!ENTITY ok.osk.description                      "If you enable OSK you will need to disable touchscreen edge swipes in Windows 10.">
+<!ENTITY ok.osk.moreinfo.button.label            "More Info">
+<!ENTITY ok.tabs.label                           "Tabbed Browsing">
+<!ENTITY ok.tabs.enable.label                    "Enable Tabbed Browsing">
+<!ENTITY ok.custom.pt.label                      "Personal Toolbar">
+<!ENTITY ok.custom.pt.enable.label               "Enable Personal Toolbar">
+<!ENTITY ok.custom.pt.context.label              "Bookmarks Context Menu">
+<!ENTITY ok.custom.nb.label                      "Notification Box">
+<!ENTITY ok.custom.nb.large.enable.label         "Enable Large Notification Box">
+<!ENTITY ok.custom.pt.bookmarks.enable.label     "Allow Bookmarks to Persist Across Sessions">
+<!ENTITY ok.custom.urlbar.label                  "Toolbar">
+<!ENTITY ok.custom.urlbar.enable.label           "Enable URL Toolbar">
+<!ENTITY ok.custom.urlbar.context.enable.label   "Enable URL Context Menu">
+<!ENTITY ok.custom.toolbar.context.enable.label  "Toolbar Context Menu">
+<!ENTITY ok.custom.tb.label                      "Main Toolbar">
+<!ENTITY ok.custom.zoom.label                    "Master Zoom Size">
+<!ENTITY ok.custom.media.label                   "Media">
+<!ENTITY ok.custom.media.autoplay.enable.label   "Enable Media Autoplay">
+<!ENTITY ok.custom.tb.button.label               "Customize Toolbar">
+<!ENTITY ok.custom.context.label                 "Context Menu">
+<!ENTITY ok.custom.context.menu.enable.label     "Enable Context Menu">
+<!ENTITY ok.custom.context.enable.label          "Enable Context Search">
+<!ENTITY ok.custom.quit.label                    "Quit">
+<!ENTITY ok.custom.quit.pass.enable.label        "Enable Quit Button Password">
+<!ENTITY ok.custom.status.label                  "Status">
+<!ENTITY ok.custom.status.enable.label           "Enable Link Status Text">
+<!ENTITY ok.custom.selection.label               "Selection">
+<!ENTITY ok.custom.selection.enable.label        "Enable Selection on Web Pages">
+<!ENTITY ok.admin.controls.label                 "Password">
+<!ENTITY ok.admin.password.label                 "Enter New Password">
+<!ENTITY ok.admin.button.reset.label             "Reset">
+<!ENTITY ok.admin.print.label                    "Printing">
+<!ENTITY ok.admin.print.silent.enable.label      "Enable silent printing.">
+<!ENTITY ok.admin.print.web.enable.label         "Allow printing from web page.">
+<!ENTITY ok.admin.navkeys.label                  "Keyboard Shortcuts">
+<!ENTITY ok.admin.navkeys.enable.label           "Enable Back/Forward navigation keys.">
+<!ENTITY ok.admin.settingskeys.enable.label      "Enable Settings keys.">
+<!ENTITY ok.admin.multimonitor.label             "Multiple Displays">
+<!ENTITY ok.admin.multimonitor.enable.label      "Allow other displays to function while the OpenKiosk display is user facing (less secure)."> 
+<!ENTITY ok.admin.externalapps.label             "External Applications">
+<!ENTITY ok.admin.externalapps.enable.label      "Allow external applications to open (insecure)."> 
+<!ENTITY ok.admin.exit.label                     "Exit Mode">
+<!ENTITY ok.admin.reset.enable.label             "Start a new session when exiting administration.">
+<!ENTITY ok.admin.download.label                 "Downloads">
+<!ENTITY ok.admin.download.enable.label          "Allow downloads dialog to be displayed.">
+<!ENTITY ok.admin.pdf.download.enable.label      "Allow saving PDF files to downloads directory which will then be displayed to user.">
+<!ENTITY ok.admin.upload.label                   "File Upload">
+<!ENTITY ok.admin.upload.enable.label            "Enable file upload form control on web pages.">
+
+<!ENTITY ok.shutdown.button                      "Shutdown">
+<!ENTITY ok.exit.button                          "Exit Settings">
+

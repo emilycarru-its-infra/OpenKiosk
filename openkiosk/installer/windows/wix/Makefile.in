@@ -1,0 +1,48 @@
+STANDALONE_MAKEFILE := 1
+DIST_SUBDIR := browser
+
+include $(topsrcdir)/config/rules.mk
+
+UUID=$(shell cat $(topsrcdir)/$(MOZ_BRANDING_DIRECTORY)/uuid64.txt)
+DATE_STAMP=$(shell date +"%Y-%m-%d")
+MSI=$(MOZ_APP_DISPLAYNAME)$(MOZ_APP_VERSION)-$(DATE_STAMP)-$(TARGET_CPU).msi
+
+DEFINES += -DDATE=$(DATE_STAMP)
+DEFINES += -DMSI_UUID=$(UUID)
+DEFINES += -DMOZ_APP_VERSION=$(MOZ_APP_VERSION)
+DEFINES += -DMOZ_APP_DISPLAYNAME='${MOZ_APP_DISPLAYNAME}'
+DEFINES += -DMOZILLA_VERSION=${MOZILLA_VERSION}
+DEFINES += -DMOZ_BRANDING_DIRECTORY=${MOZ_BRANDING_DIRECTORY}
+DEFINES += -DMOZ_APP_NAME=$(MOZ_APP_NAME)
+
+installer:
+	rm -f $(DIST)/*.msi
+	mkdir -p $(DIST)/wix/msi
+	cp $(topsrcdir)/$(MOZ_BRANDING_DIRECTORY)/license.rtf $(DIST)/wix/
+	cp $(topsrcdir)/$(MOZ_BRANDING_DIRECTORY)/banner.png $(DIST)/wix/
+	cp $(topsrcdir)/$(MOZ_BRANDING_DIRECTORY)/dialog.png $(DIST)/wix/
+	cp $(srcdir)/generate-wix-file.sh $(DIST)/wix/
+	cp $(srcdir)/openkiosk.wxs.in $(DIST)/wix/
+	cp $(srcdir)/defs.wxi.in $(DIST)/wix/
+	cp $(srcdir)/en-US.wxl $(DIST)/wix/
+	cp $(topsrcdir)/$(MOZ_BRANDING_DIRECTORY)/openkiosk.ico $(DIST)/wix/
+	rm -rf $(DIST)/wix/$(MOZ_APP_DISPLAYNAME) $(DIST)/wix/msi/*
+	cp -r $(DIST)/$(MOZ_APP_DISPLAYNAME) $(DIST)/wix/
+	cd $(DIST)/wix/; \
+	sed -e's:__GUID__:'$(UUID)':g' -e's:__VERSION__:'$(MOZ_APP_VERSION)':g' defs.wxi.in > defs.wxi; \
+	./generate-wix-file.sh $(MOZ_APP_DISPLAYNAME); \
+	rm *.in; \
+	echo -n "Building MSI..."; \
+	wix build -ext WixToolset.UI.wixext -arch x64 -bindvariable WixUILicenseRtf=license.rtf -loc en-US.wxl openkiosk.wxs -o msi/$(MSI); 
+	echo "Completed.";
+	cp $(DIST)/wix/msi/$(MSI) $(DIST)/
+
+uuid:
+	@echo $(UUID);
+
+version:
+	@echo $(MOZ_APP_VERSION);
+
+cpu:
+	@echo $(TARGET_CPU);
+

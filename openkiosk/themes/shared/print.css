@@ -1,0 +1,18 @@
+#Overrides for Print Page
+
+/* We are allowing the print select box to appear now with only printers listed
+#destination > .section-block,
+#destination,
+#printer-picker,
+#printer-picker-wrapper,
+#destination-picker,
+*/
+
+#system-print,
+#open-dialog-link
+{
+  visibility : collapse;  
+     display : none;
+}
+
+  

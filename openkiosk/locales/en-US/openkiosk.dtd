@@ -1,0 +1,17 @@
+
+
+<!ENTITY ok.aup.title                         "Acceptable Use Policy">
+<!ENTITY ok.aup.accept.button                 "Accept">
+<!ENTITY ok.aup.decline.button                "Decline">
+
+<!ENTITY ok.admin.password.tb                 "Login Password:">
+<!ENTITY ok.admin.ok.button                   "OK">
+<!ENTITY ok.admin.cancel.button               "Cancel">
+<!ENTITY ok.admin.quit.password.tb            "Quit Password:">
+<!ENTITY ok.admin.settings.button             "OpenKiosk Settings">
+
+<!ENTITY ok.session.continue.button           "Continue">
+
+<!ENTITY ok.exit.button                       "Exit Settings">
+<!ENTITY ok.quit.label                        "Quit">
+

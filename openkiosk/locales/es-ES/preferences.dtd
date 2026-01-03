@@ -1,0 +1,113 @@
+
+<!ENTITY ok.homepage.description                 "(Asegúrese de que no está utilizando una URL de redireccionamiento para que el restablecimiento de la sesión funcione correctamente.)">
+<!ENTITY ok.label                                "OpenKiosk">
+<!ENTITY ok.screens.label                        "Pantallas">
+<!ENTITY ok.filters.label                        "Filtros">
+<!ENTITY ok.session.label                        "Sesión">
+<!ENTITY ok.customize.label                      "Personalizar">
+<!ENTITY ok.admin.label                          "Administración">
+<!ENTITY ok.about.label                          "Acerca de">
+<!ENTITY ok.attract.label                        "Atraer pantalla">
+<!ENTITY ok.attract.enable.label                 "Habilitar pantalla de atracción">
+<!ENTITY ok.attract.description                  "Cuando está habilitada, esta configuración anulará la página de inicio y se cargará al inicio y restablecimiento de sesión. La URL ingresada anteriormente se cargará en modo de pantalla completa. Cuando el usuario haga clic en un enlace, aparecerá la barra de herramientas.">
+<!ENTITY ok.full.label                           "Pantalla completa">
+<!ENTITY ok.full.enable.label                    "Habilitar pantalla completa">
+<!ENTITY ok.full.tabs.enable.label               "Habilitar pestañas">
+<!ENTITY ok.full.description                     "Cuando está habilitado, OpenKiosk siempre se mostrará en pantalla completa sin barras de herramientas.">
+<!ENTITY ok.redirect.label                       "Redirigir pantalla">
+<!ENTITY ok.redirect.enable.label                "Habilitar pantalla de redireccionamiento">
+<!ENTITY ok.redirect.description                 "Cuando está habilitada, esta página se cargará cuando se encuentre una página bloqueada.">
+<!ENTITY ok.url.filters.label                    "Filtrar URL">
+<!ENTITY ok.url.filters.enable.label             "Habilitar filtros de URL">
+<!ENTITY ok.whitelist.label                      "Lista blanca">
+<!ENTITY ok.blacklist.label                      "Lista negra">
+<!ENTITY ok.filters.description                  "Si habilita los filtros, las reglas aquí se utilizarán para determinar qué url están permitidas o bloqueadas. Una vez que edites este campo aparecerá un botón para guardar. O puede elegir cargar un archivo de filtros existente.">
+<!ENTITY ok.filters.warn.description             "NOTA: los filtros de URL no bloquearán los anuncios. Se recomienda encarecidamente instalar Add-Block-Plus desde la sección Complementos.">
+<!ENTITY ok.filters.button                       "Escoger...">
+<!ENTITY ok.javascript.label                     "Habilitar Javascript">
+<!ENTITY ok.javascript.enable.label              "Si no está marcada, esta configuración deshabilitará completamente JavaScript, anulando cualquier JavaScript especificado en los filtros anteriores.">
+<!ENTITY ok.protocols.enable.label               "Habilitar filtros de protocolo de red">
+<!ENTITY ok.protocol.about.label                 "about:">
+<!ENTITY ok.protocol.blob.label                  "blob:">
+<!ENTITY ok.protocol.data.label                  "data:">
+<!ENTITY ok.protocol.email.label                 "mailto:">
+<!ENTITY ok.protocol.file.label                  "file:">
+<!ENTITY ok.protocol.ftp.label                   "ftp:">
+<!ENTITY ok.protocol.res.label                   "resource:">
+<!ENTITY ok.protocol.sms.label                   "sms:">
+<!ENTITY ok.protocol.tel.label                   "tel:">
+<!ENTITY ok.protocol.viewsource.label            "view-source:">
+<!ENTITY ok.protocol.javascript.label            "javascript:">
+<!ENTITY ok.session.reset.label                  "Restablecer sesión">
+<!ENTITY ok.session.inactive.label               "Establecer terminal inactiva">
+<!ENTITY ok.session.after.label                  "Restablecer después        ">
+<!ENTITY ok.session.min.label                    "minutos y        ">
+<!ENTITY ok.session.sec.label                    "segundos">
+<!ENTITY ok.session.warn.label                   "Habilitar cuenta regresiva">
+<!ENTITY ok.session.warn.manual.label            "Habilitar cuenta atrás en el reinicio manual">
+<!ENTITY ok.session.countdown.label              "Mostrar cuenta regresiva para ">
+<!ENTITY ok.session.cache.label                  "Caché">
+<!ENTITY ok.session.disk.enable.label            "Habilitar caché de disco">
+<!ENTITY ok.session.disk.label                   "La habilitación de caché de disco permite que los elementos almacenados en caché persistan en las sesiones.">
+<!ENTITY ok.session.history.enable.label         "Conservar el historial de la sesión">
+<!ENTITY ok.session.history.label                "La habilitación del historial de sesiones permite que los enlaces hacia atrás / adelante, visitados y el historial de la barra url permanezcan en las sesiones.">
+<!ENTITY ok.session.cookies.enable.label         "Conservar cookies de sesión">
+<!ENTITY ok.session.cookies.label                "Habilitar las cookies de sesión permite que las cookies del sitio web persistan entre sesiones.">
+<!ENTITY ok.session.aup.label                    "Política de uso aceptable (AUP)">
+<!ENTITY ok.session.aup.enable.label             "Habilitar AUP">
+<!ENTITY ok.session.aup.description              "Al habilitar esta función, se solicita al usuario que cada sesión acepte los términos de uso de OpenKiosk. Una vez aceptado, no se le volverá a preguntar al usuario durante la sesión. Si se rechaza, se le solicitará cada vez que intente acceder a una página web que no sea el hogar, atraer o redirigir páginas.">
+<!ENTITY ok.session.aup.url.description          "AUP URL">
+<!ENTITY ok.osk.label                            "OSK">
+<!ENTITY ok.osk.enable.label                     "Teclado en pantalla">
+<!ENTITY ok.osk.description                      "Si habilita OSK, deberá deshabilitar el deslizamiento del borde de la pantalla táctil en Windows 10.">
+<!ENTITY ok.osk.moreinfo.button.label            "Más información">
+<!ENTITY ok.tabs.label                           "Navegación por pestañas">
+<!ENTITY ok.tabs.enable.label                    "Habilitar la navegación con pestañas">
+<!ENTITY ok.custom.pt.label                      "Barra de herramientas personal">
+<!ENTITY ok.custom.pt.enable.label               "Habilitar barra de herramientas personal">
+<!ENTITY ok.custom.pt.context.label              "Menú contextual de marcadores">
+<!ENTITY ok.custom.nb.label                      "Cuadro de notificaciones">
+<!ENTITY ok.custom.nb.large.enable.label         "Habilitar cuadro de notificación grande">
+<!ENTITY ok.custom.pt.bookmarks.enable.label     "Permitir que los marcadores persistan en todas las sesiones">
+<!ENTITY ok.custom.urlbar.label                  "Barra de herramientas">
+<!ENTITY ok.custom.urlbar.enable.label           "Habilitar la barra de herramientas de URL">
+<!ENTITY ok.custom.urlbar.context.enable.label   "Habilitar menú contextual de URL">
+<!ENTITY ok.custom.toolbar.context.enable.label  "Menú contextual de la barra de herramientas">
+<!ENTITY ok.custom.tb.label                      "Barra de herramientas principal">
+<!ENTITY ok.custom.zoom.label                    "Tamaño de zoom maestro">
+<!ENTITY ok.custom.media.label                   "Medios de comunicación">
+<!ENTITY ok.custom.media.autoplay.enable.label   "Habilitar reproducción automática de medios">
+<!ENTITY ok.custom.tb.button.label               "Personalizar la barra de herramientas">
+<!ENTITY ok.custom.context.label                 "Menú de contexto">
+<!ENTITY ok.custom.context.menu.enable.label     "Habilitar menú contextual">
+<!ENTITY ok.custom.context.enable.label          "Habilitar búsqueda de contexto">
+<!ENTITY ok.custom.quit.label                    "Renunciar">
+<!ENTITY ok.custom.quit.pass.enable.label        "Habilitar la contraseña del botón de salir">
+<!ENTITY ok.custom.status.label                  "Estado">
+<!ENTITY ok.custom.status.enable.label           "Habilitar texto de estado del enlace">
+<!ENTITY ok.custom.selection.label               "Selección">
+<!ENTITY ok.custom.selection.enable.label        "Habilitar selección en páginas web">
+<!ENTITY ok.admin.controls.label                 "Contraseña">
+<!ENTITY ok.admin.password.label                 "Introduzca nueva contraseña">
+<!ENTITY ok.admin.button.reset.label             "Reiniciar">
+<!ENTITY ok.admin.print.label                    "Impresión">
+<!ENTITY ok.admin.print.silent.enable.label      "Habilitar impresión silenciosa.">
+<!ENTITY ok.admin.print.web.enable.label         "Permitir la impresión desde la página web.">
+<!ENTITY ok.admin.navkeys.label                  "Atajos de teclado">
+<!ENTITY ok.admin.navkeys.enable.label           "Habilitar teclas de navegación hacia atrás / adelante.">
+<!ENTITY ok.admin.settingskeys.enable.label      "Habilitar teclas de configuración.">
+<!ENTITY ok.admin.multimonitor.label             "Varias pantallas">
+<!ENTITY ok.admin.multimonitor.enable.label      "Permita que otras pantallas funcionen mientras la pantalla de OpenKiosk está orientada hacia el usuario (menos segura). .">
+<!ENTITY ok.admin.externalapps.label             "Aplicaciones Externas">
+<!ENTITY ok.admin.externalapps.enable.label      "Permitir que se abran aplicaciones externas (inseguro)."> 
+<!ENTITY ok.admin.exit.label                     "Modo de salida">
+<!ENTITY ok.admin.reset.enable.label             "Iniciar una nueva sesión al salir de la administración..">
+<!ENTITY ok.admin.download.label                 "Descargas">
+<!ENTITY ok.admin.download.enable.label          "Permitir que se muestre el diálogo de descargas.">
+<!ENTITY ok.admin.pdf.download.enable.label      "Permita guardar archivos PDF en el directorio de descargas que luego se mostrará al usuario.">
+<!ENTITY ok.admin.upload.label                   "Subir archivo">
+<!ENTITY ok.admin.upload.enable.label            "Habilitar el control de formulario de carga de archivos en páginas web.">
+
+<!ENTITY ok.shutdown.button                      "Apagar">
+<!ENTITY ok.exit.button                          "Administración de salida">
+

@@ -1,0 +1,4 @@
+EXTRA_JS_MODULES += [ 'OpenKioskDOM.jsm', ]
+
+XPCOM_MANIFESTS += [ 'components.conf', ]
+

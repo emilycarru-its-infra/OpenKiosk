@@ -1,0 +1,32 @@
+XPIDL_SOURCES += [ 'mozIOpenKiosk.idl', ]
+
+XPIDL_MODULE = 'openkiosk'
+
+XPCOM_MANIFESTS += [
+    "components.conf",
+]
+
+EXPORTS += [ "mozOpenKiosk.h" ]
+
+if CONFIG['MOZ_WIDGET_TOOLKIT'] == 'cocoa': 
+  SOURCES += [ 'mozOpenKioskOSX.mm', ]
+  OS_LIBS += [ '-framework Carbon', ]
+  EXPORTS += [ "mozOpenKioskOSX.h" ]
+
+if CONFIG['MOZ_WIDGET_TOOLKIT'] == 'windows': 
+  SOURCES += [ 'mozOpenKioskWin.cpp', ]
+  EXPORTS += [ "mozOpenKioskWin.h" ]
+  include("/ipc/chromium/chromium-config.mozbuild")
+  DEFINES["MOZ_UNICODE"] = True
+  for var in "MOZ_ENABLE_D3D10_LAYER":
+    if CONFIG[var]:
+        DEFINES[var] = True
+  CXXFLAGS += CONFIG["MOZ_CAIRO_CFLAGS"]
+
+if CONFIG['OS_ARCH'] == 'Linux':
+  SOURCES += [ 'mozOpenKioskLinux.cpp', ]
+  EXPORTS += [ "mozOpenKioskLinux.h" ]
+  EXTRA_DSO_LDOPTS += [ '-lgcov' ]
+
+FINAL_LIBRARY = 'xul'
+

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" [
+<!ENTITY % brandDTD SYSTEM "chrome://branding/locale/brand.dtd" >
+%brandDTD;
+<!ENTITY % aboutDTD SYSTEM "chrome://openkiosk/locale/about.dtd" >
+%aboutDTD;
+]>
+ <!-- This Source Code Form is subject to the terms of the Mozilla Public
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+ <html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src chrome://*; child-src 'none';" />
+   <title>About:</title>
+   <link rel="stylesheet" href="chrome://global/skin/global.css" type="text/css"/>
+   <link rel="stylesheet" href="chrome://browser/skin/preferences/preferences.css"/>
+   <script type="application/javascript">
+     function handleAboutLinks (aURL)
+     {
+       if (parent.OpenKioskPreferences) parent.OpenKioskPreferences.openNewTab(aURL);
+       else location.href = aURL;
+     }
+   </script>
+ </head>
+
+ <body dir="&locale.dir;" style="background: white; border: 1px solid black;">
+   <span><h2> <span id="version"></span> &beta.version;</h2></span>
+   <div id="aboutLogoContainer">
+     <a id="vendorURL" href="#" onclick="handleAboutLinks('http://openkiosk.mozdevgroup.com/');">
+       <img src="about:logo" alt="OpenKiosk"/>
+     </a>
+       <br/>
+   </div>
+
+   <ul id="aboutPageList">
+    <li>&about.version;: <span id="version"></span> &beta.version;</li>
+    <li>&about.relnotes.beforeTheLink;<a href="#" onclick="handleAboutLinks('http://openkiosk.mozdevgroup.com/release91.html');" id="releaseNotesURL">&about.relnotes.linkTitle;</a>&about.relnotes.afterTheLink;</li>
+    <li>&about.buildconfig.beforeTheLink;<a href="#" onclick="handleAboutLinks('about:buildconfig');">&about.buildconfig.linkTitle;</a>&about.buildconfig.afterTheLink;</li>
+     <li id="buildID">&about.buildIdentifier;</li>
+   </ul>
+   <script type="application/javascript" src="chrome://browser/content/js/about.js"/>
+ </body>
+ </html>

@@ -1,0 +1,12 @@
+browser.jar:
+*  content/browser/openkiosk.xhtml           (content/openkiosk.xhtml)
+   content/browser/AUP.html                  (content/AUP.html)
+   content/browser/test.xhtml                (content/test.xhtml)
+*  content/browser/js/openkiosk.js           (content/js/openkiosk.js)
+*  content/browser/js/utils.js               (content/js/utils.js)
+   content/browser/js/session.js             (content/js/session.js)
+   content/browser/js/content-frame.js       (content/js/content-frame.js)
+   content/browser/js/debug.js               (content/js/debug.js)
+   content/browser/js/preferences.js         (content/js/preferences.js)
+   content/browser/filters.txt               (content/filters.txt)
+

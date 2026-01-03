@@ -1,0 +1,19 @@
+
+
+<!ENTITY ok.aup.title                         "Politique d'utilisation acceptable">
+<!ENTITY ok.aup.accept.button                 "J'accepte">
+<!ENTITY ok.aup.decline.button                "Déclin">
+
+<!ENTITY ok.admin.password.tb                 "Mot de passe:">
+<!ENTITY ok.admin.ok.button                   "d'accord">
+<!ENTITY ok.admin.cancel.button               "Annuler">
+<!ENTITY ok.admin.quit.password.tb            "Quitter le mot de passe:">
+<!ENTITY ok.admin.settings.button             "Paramètres OpenKiosk">
+
+<!ENTITY ok.session.continue.button           "Continuer">
+
+<!ENTITY ok.exit.button                       "Quitter les paramètres">
+<!ENTITY ok.quit.label                        "Quitter">
+
+<!ENTITY  resetButton.label     "Station de réinitialisation">
+<!ENTITY  quitButton.label      "Quitter">

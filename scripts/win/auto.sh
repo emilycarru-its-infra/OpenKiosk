@@ -1,0 +1,5 @@
+#!/bin/bash
+
+./build.sh  
+
+exit 0;

@@ -1,0 +1,71 @@
+<?include $(sys.CURRENTDIR)\defs.wxi ?>
+
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+
+  <Package Name="$(var.name)"
+           Manufacturer="$(var.publisher)"
+           Version="$(var.version)"
+           UpgradeCode="$(var.guid)"
+           Scope="perMachine">
+
+    <Media Id="1" Cabinet="setup.cab" EmbedCab="yes" />
+
+    <!-- UI Library -->
+    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLDIR" />
+    <WixVariable Id="WixUIDialogBmp" Value="dialog.png" />
+    <WixVariable Id="WixUIBannerBmp" Value="banner.png" />
+
+    <MajorUpgrade Schedule="afterInstallInitialize"
+                DowngradeErrorMessage="A later version of $(var.name) is already installed"
+                AllowSameVersionUpgrades="yes" />
+
+    <Feature Id="Main" Title="Install $(var.name)">
+      <ComponentRef Id="$(var.name)" />
+__COMPONENT_REFS__
+      <ComponentRef Id="ApplicationDesktopShortcut" />
+      <ComponentRef Id="ApplicationStartMenuFolder" />
+    </Feature>
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLDIR" Name="$(var.name)">
+__COMPONENTS__
+__FOLDERS__
+      </Directory>
+      <!-- Not working yet, app folder still lingers in Profram FIles -->
+      <Component Id="$(var.name)" Guid="465c1fb5-d89a-449f-8c41-bde088a44e5b">
+        <RemoveFolder Id="INSTALLDIR" On="uninstall" Subdirectory="$(var.name)"/>
+      </Component>
+    </StandardDirectory>
+    <StandardDirectory Id="DesktopFolder">
+      <Component Id="ApplicationDesktopShortcut"> 
+        <Shortcut Id="DesktopShortcut" 
+                  Name="$(var.name)" 
+                  Description="$(var.name)" 
+                  Target="[INSTALLDIR]$(var.exe)" 
+                  WorkingDirectory="INSTALLDIR">
+          <Icon Id="icon" SourceFile="$(var.icon)" />
+        </Shortcut>
+        <RegistryValue Root="HKCU"                
+                       Key="Software\$(var.publisher)\$(var.name)"                
+                       Name="installed"                
+                       Type="integer"                
+                       Value="1"                
+                       KeyPath="yes" />
+      </Component>
+    </StandardDirectory>
+    <StandardDirectory Id="StartMenuFolder">
+      <Component Id="ApplicationStartMenuFolder" Guid="e590eaf9-de0d-447f-8810-d33aa4ddfdcf"> 
+        <Shortcut Id="StartMenuFolderShortcut" 
+                  Name="$(var.name)" 
+                  Description="$(var.name)" 
+                  Target="[INSTALLDIR]$(var.exe)" 
+                  WorkingDirectory="INSTALLDIR">
+          <Icon Id="smicon" SourceFile="$(var.icon)" />
+        </Shortcut>
+      </Component>
+    </StandardDirectory>
+    <Icon Id="add_remove_icon" SourceFile="$(var.icon)"/>
+    <Property Id="ARPPRODUCTICON" Value="add_remove_icon" />
+  </Package>
+</Wix>

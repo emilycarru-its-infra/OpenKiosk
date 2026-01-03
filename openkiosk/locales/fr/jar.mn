@@ -1,0 +1,21 @@
+######################
+# French
+
+fr.jar:
+% locale openkiosk fr %locale/%openkiosk/
+    locale/fr/openkiosk/about.dtd                        (about.dtd)
+    locale/fr/openkiosk/openkiosk.dtd                    (openkiosk.dtd)
+    locale/fr/openkiosk/preferences.dtd                  (preferences.dtd)
+    locale/fr/openkiosk/admin.properties                 (admin.properties)
+    locale/fr/openkiosk/preferences.properties           (preferences.properties)
+    locale/fr/openkiosk/session.properties               (session.properties)
+
+[localization] fr.jar:
+    openkiosk/openkiosk.ftl                              (branding/openkiosk.ftl)
+
+fr.jar:
+% locale branding fr %locale/%branding/
+    locale/fr/branding/brand.dtd                         (branding/brand.dtd)
+    locale/fr/branding/brand.properties                  (branding/brand.properties)
+
+######################

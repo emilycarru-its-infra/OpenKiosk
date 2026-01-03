@@ -1,0 +1,17 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+openkiosk.jar:
+% skin openkiosk classic/1.0 %skin/classic/openkiosk/
+
+* skin/classic/openkiosk/browser.css     (browser.css)
+  skin/classic/openkiosk/preferences.css (../shared/preferences.css)
+  skin/classic/openkiosk/print.css       (../shared/print.css)
+  skin/classic/openkiosk/reset.png       (../shared/reset.png)
+  skin/classic/openkiosk/home-black.png  (../shared/home-black.png)
+  skin/classic/openkiosk/quit.png        (../shared/quit.png)
+  skin/classic/openkiosk/settings.png    (../shared/settings.png)
+  skin/classic/openkiosk/openkiosk.svg   (../shared/openkiosk.svg)
+  skin/classic/openkiosk/icons.woff2     (../shared/icons.woff2)
+

@@ -1,0 +1,2 @@
+export MOZ_APP_BASENAME=OpenKiosk
+export MOZ_APP_NAME=OpenKiosk

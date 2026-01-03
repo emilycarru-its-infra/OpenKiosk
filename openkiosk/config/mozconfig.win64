@@ -1,0 +1,33 @@
+# Win64 Build
+
+# ok custom variables
+. $topsrcdir/openkiosk/config/common
+
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/../opt-openkiosk-@CONFIG_GUESS@
+mk_add_options MOZ_MAKE_FLAGS="-s -j8"
+
+# 64 bit
+ac_add_options --target=x86_64-pc-mingw32
+
+ac_add_options --enable-application=openkiosk
+ac_add_options --enable-update-channel=release
+ac_add_options --enable-js-shell
+ac_add_options --enable-rust-simd
+ac_add_options --enable-official-branding
+ac_add_options --disable-tests
+
+# Disable crash reporter
+ac_add_options --disable-crashreporter
+
+# Test
+# ac_add_options --without-wasm-sandboxed-libraries
+ac_add_options --enable-bootstrap
+
+ac_add_options MOZ_TELEMETRY_REPORTING=
+
+MOZILLA_OFFICIAL=1 
+
+export WIN32_REDIST_DIR="$topsrcdir/../scripts/win/redist/x64"
+export WIN_UCRT_REDIST_DIR="$topsrcdir/../scripts/win/redist/x64"
+
+mk_add_options AUTOCLOBBER=1

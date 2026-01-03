@@ -1,0 +1,61 @@
+# Sample URL filter file
+#
+# TO USE THIS FILE JUST MAKE A SIMPLE 
+# EDIT AND CLICK ON "SAVE" BUTTON
+#
+# You can either Whitelist it or blacklist the entries
+#
+# This is a comment
+#
+# STRICT - only an exact URL match will be let through, though it is tolerant of trailing slashes
+#    ALL - all pages from a specified path will be let through
+#        - The * wildcard will do a domain match, but only with the ALL filter
+#
+#  foo.org = www.foo.org
+#
+# JAVASCRIPT - Allow javascript to run on the page (default)
+# NOJAVASCRIPT - Block javascript from running on page
+# http protocol is assumed other protocols like https:// MUST be specifically added
+
+# SYNTAX FORMAT 
+# filter[HOST, ALL/STRICT, JAVASCRIPT/NOJAVASCRIPT]; 
+
+# use specific protocol if not assuming http:// 
+# eg: https://
+# Most sites today are not using http:// and instead redirect to https:// 
+# so ensure the correct protocol for the site you want to filter.
+# For example you might allow www.google.com but that url redirects to https://www.google.com
+# which will be blocked if the https:// protocol is not set here.
+
+# SAMPLE ENTRIES:
+
+# using ALL and JAVASCRIPT
+filter[www.mozdevgroup.com, ALL, JAVASCRIPT];
+
+# although an ALL declaration is used above this declaration this will 
+# specifically block javascript for this url
+filter[https://www.mozdevgroup.com/dropbox/test/js.html, STRICT, NOJAVASCRIPT];
+
+filter[www.mozilla.org/projects/firefox/, STRICT, NOJAVASCRIPT];
+
+# JAVASCRIPT is enabled by default
+filter[*.brooklynmuseum.org/, ALL];
+
+# STRICT using * - only this folders files and subdirs will be displayed
+filter[www.mozdevgroup.com/document/*, STRICT, JAVASCRIPT];
+
+# only this page will be displayed
+filter[www.mozilla.org/en-US/thunderbird/, STRICT, JAVASCRIPT];
+
+# entire site and all subdomains will be filtered with javascript disabled
+filter[https://slashdot.org, ALL, NOJAVASCRIPT];
+
+# entire site and all subdomains will be filtered with javascript enabled
+filter[https://duckduckgo.com, ALL, JAVASCRIPT];
+
+# False positives exist.
+# Sometimes news.google.com loads youtube.com into elements on the page, 
+# so in order for https://news.google.com to load, you need to enable youtube as well.
+# Entire site and all subdomains will be filtered with javascript enabled.
+filter[https://*.youtube.com, ALL];
+

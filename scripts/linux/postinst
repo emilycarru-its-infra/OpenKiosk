@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# install OpenKiosk Icon
+/usr/lib/OpenKiosk/./install-icon.sh;
+
+exit 0;

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+rm -f /usr/lib/OpenKiosk/fonts/.uuid;
+/usr/lib/OpenKiosk/./install-icon.sh -r;
+
+exit 0;

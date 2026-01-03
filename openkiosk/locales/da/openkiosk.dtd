@@ -1,0 +1,20 @@
+
+
+<!ENTITY ok.aup.title                         "Politik for acceptabelt brug">
+<!ENTITY ok.aup.accept.button                 "Accepter">
+<!ENTITY ok.aup.decline.button                "Afvis">
+
+<!ENTITY ok.admin.password.tb                 "Login password:">
+<!ENTITY ok.admin.ok.button                   "OK">
+<!ENTITY ok.admin.cancel.button               "Annull&#233;r">
+<!ENTITY ok.admin.quit.password.tb            "Afslutningspassword:">
+<!ENTITY ok.admin.settings.button             "OpenKiosk indstillinger">
+
+<!ENTITY ok.session.continue.button           "Forts&#230;t">
+
+<!ENTITY ok.exit.button                       "Afslut indstillinger">
+<!ENTITY ok.quit.label                        "Afslut">
+
+<!ENTITY  resetButton.label                   "Nulstil Station">
+<!ENTITY  quitButton.label                    "Afslut">
+

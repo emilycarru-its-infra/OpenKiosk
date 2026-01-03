@@ -1,0 +1,21 @@
+######################
+# Danish
+
+da.jar:
+% locale openkiosk da %locale/%openkiosk/
+    locale/da/openkiosk/about.dtd                        (about.dtd)
+    locale/da/openkiosk/openkiosk.dtd                    (openkiosk.dtd)
+    locale/da/openkiosk/preferences.dtd                  (preferences.dtd)
+    locale/da/openkiosk/admin.properties                 (admin.properties)
+    locale/da/openkiosk/preferences.properties           (preferences.properties)
+    locale/da/openkiosk/session.properties               (session.properties)
+
+[localization] da.jar:
+    openkiosk/openkiosk.ftl                              (branding/openkiosk.ftl)
+
+da.jar:
+% locale branding da %locale/%branding/
+    locale/da/branding/brand.dtd                         (branding/brand.dtd)
+    locale/da/branding/brand.properties                  (branding/brand.properties)
+######################
+
