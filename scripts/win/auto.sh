@@ -1,5 +1,5 @@
 #!/bin/bash
 
-./build.sh  
+./build32.sh  
 
 exit 0;

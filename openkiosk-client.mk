@@ -43,13 +43,14 @@ fetch-bundle:
 	curl -O $(BUNDLE_CONFIG_FILE); wait; 
 
 bundle-checkout: fetch-bundle
-	@if [ ! -d mozilla ]; then hg init mozilla; fi
 	export BUNDLE_PATH=$(shell grep $(BUNDLE_TAG) bundles.json | grep $(BUNDLE_EXT) | sed -e's:^.*"r:r:g' | sed -e's:",::g;');                     \
 	export BUNDLE_FILE=$(shell grep $(BUNDLE_TAG) bundles.json | grep $(BUNDLE_EXT) | sed -e's:^.*"r:r:g' | sed -e's:",::g;' | sed -e's:^.*/::g'); \
-	export BUNDLE_URL=$(BUNDLE_HOST)/$$BUNDLE_PATH;                                                                                                  \
+	export BUNDLE_URL=$(BUNDLE_HOST)/$$BUNDLE_PATH; 
+	@if [ ! -d mozilla ]; then hg init mozilla;                                                                                                 \
 	echo Fetching Mercurial Bundle [$$BUNDLE_URL];                                                                                                   \
 	curl -O $$BUNDLE_URL;                                                                                                                            \
 	cd mozilla; hg unbundle ../$$BUNDLE_FILE; wait; hg up $(TARGET_REV); wait; hg up;
+	fi
 
 openkiosk-checkout:
 	@if [ ! -d mozilla/openkiosk ]; then \
@@ -71,7 +72,7 @@ mozconfig:
 	echo '. $$topsrcdir/openkiosk/config/mozconfig.mac' >> $(MOZ_CONFIG);
 	echo  >> $(MOZ_CONFIG);
     else
-	echo '. $$topsrcdir/openkiosk/config/mozconfig.win' >> $(MOZ_CONFIG);
+	echo '. $$topsrcdir/openkiosk/config/mozconfig.win32' >> $(MOZ_CONFIG);
 	echo  >> $(MOZ_CONFIG);
 	echo '# . $$topsrcdir/openkiosk/config/mozconfig.win64' >> $(MOZ_CONFIG);
 	echo  >> $(MOZ_CONFIG);
