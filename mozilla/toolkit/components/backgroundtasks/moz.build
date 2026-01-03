@@ -84,7 +84,7 @@ TESTING_JS_MODULES.backgroundtasks += [
     "tests/BackgroundTask_wait.sys.mjs",
 ]
 
-if CONFIG["MOZ_BUILD_APP"] == "browser":
+if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
     # ASRouter is Firefox-only.
     TESTING_JS_MODULES.backgroundtasks += [
         "tests/BackgroundTask_targeting.sys.mjs",

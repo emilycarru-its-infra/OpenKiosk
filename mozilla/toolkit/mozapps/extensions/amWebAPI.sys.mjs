@@ -165,6 +165,11 @@ class Addon extends APIObject {
   }
 
   uninstall() {
+    // OPENKIOSK 
+    if (!Services.prefs.getBoolPref("xpinstall.enabled", true)) {
+      throw new this.window.Error("Software installation is disabled.");
+    }
+
     return this._apiTask("addonUninstall", [this.id]);
   }
 

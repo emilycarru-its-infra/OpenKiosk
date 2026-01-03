@@ -10,6 +10,7 @@ pdfjs.jar:
  content/web/cmaps/	(content/web/cmaps/*)
  content/web/standard_fonts/	(content/web/standard_fonts/*)
  content/web/images/	(content/web/images/annotation-*.svg)
+ content/web/images/home.svg	(content/web/images/home.svg)
  content/web/images/loading-icon.gif	(content/web/images/loading-icon.gif)
 #ifdef ANDROID
  content/GeckoViewPdfjsParent.sys.mjs (content/GeckoViewPdfjsParent.sys.mjs)

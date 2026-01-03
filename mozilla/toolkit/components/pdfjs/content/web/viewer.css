@@ -1106,6 +1106,7 @@
   --toolbarButton-zoomOut-icon: url(images/toolbarButton-zoomOut.svg);
   --toolbarButton-zoomIn-icon: url(images/toolbarButton-zoomIn.svg);
   --toolbarButton-presentationMode-icon: url(images/toolbarButton-presentationMode.svg);
+  --toolbarButton-home-icon: url(images/home.svg);
   --toolbarButton-print-icon: url(images/toolbarButton-print.svg);
   --toolbarButton-download-icon: url(images/toolbarButton-download.svg);
   --toolbarButton-bookmark-icon: url(images/toolbarButton-bookmark.svg);
@@ -1896,6 +1897,10 @@ body {
   mask-image: var(--toolbarButton-editorInk-icon);
 }
 
+#home::before {
+  mask-image: var(--toolbarButton-home-icon);
+}
+
 #print::before,
 #secondaryPrint::before {
   mask-image: var(--toolbarButton-print-icon);
@@ -1904,6 +1909,8 @@ body {
 :is(#download, #secondaryDownload)::before {
   mask-image: var(--toolbarButton-download-icon);
 }
+
+.ok-button-hidden { display: none; }
 
 a.secondaryToolbarButton {
   padding-top: 5px;

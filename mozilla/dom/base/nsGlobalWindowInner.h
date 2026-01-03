@@ -115,6 +115,7 @@ class IdleRequest;
 class IdleRequestCallback;
 class IncrementalRunnable;
 class InstallTriggerImpl;
+class IOpenKiosk;
 class IntlUtils;
 class MediaQueryList;
 class OwningExternalOrWindowProxy;
@@ -969,6 +970,8 @@ class nsGlobalWindowInner final : public mozilla::dom::EventTarget,
 
   mozilla::dom::InstallTriggerImpl* GetInstallTrigger();
 
+  mozilla::dom::IOpenKiosk* GetOpenKiosk();
+
   nsIDOMWindowUtils* GetWindowUtils(mozilla::ErrorResult& aRv);
 
   void UpdateTopInnerWindow();
@@ -1449,6 +1452,7 @@ class nsGlobalWindowInner final : public mozilla::dom::EventTarget,
   RefPtr<mozilla::dom::Worklet> mPaintWorklet;
   RefPtr<mozilla::dom::External> mExternal;
   RefPtr<mozilla::dom::InstallTriggerImpl> mInstallTrigger;
+  RefPtr<mozilla::dom::IOpenKiosk> mOpenKiosk;
 
   RefPtr<mozilla::dom::Storage> mLocalStorage;
   RefPtr<mozilla::dom::Storage> mSessionStorage;

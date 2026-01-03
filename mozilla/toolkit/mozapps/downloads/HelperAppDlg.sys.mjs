@@ -178,6 +178,10 @@ nsUnknownContentTypeDialog.prototype = {
   // in nsExternalHelperAppService), the dialog gets a blur and doesn't
   // activate the OK button.  So we wait a bit before doing opening it.
   reallyShow() {
+    // OPENKIOSK
+    let p = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
+    if (!p.getBoolPref("openkiosk.downloads.enabled")) return;
+
     try {
       let docShell = this.mContext.getInterface(Ci.nsIDocShell);
       let rootWin = docShell.browsingContext.topChromeWindow;

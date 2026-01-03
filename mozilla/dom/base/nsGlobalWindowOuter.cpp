@@ -5116,6 +5116,9 @@ void nsGlobalWindowOuter::StopOuter(ErrorResult& aError) {
 }
 
 void nsGlobalWindowOuter::PrintOuter(ErrorResult& aError) {
+  // OPENKIOSK
+  if (!Preferences::GetBool("openkiosk.print.web.enabled")) return;
+
   if (!AreDialogsEnabled()) {
     // Per spec, silently return. https://github.com/whatwg/html/commit/21a1de1
     return;

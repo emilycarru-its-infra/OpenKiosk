@@ -1909,8 +1909,12 @@ class DestinationPicker extends PrintSettingSelect {
   handleEvent(e) {
     super.handleEvent(e);
 
-    if (e.type == "available-destinations") {
-      this.setOptions(e.detail);
+    if (e.type == "available-destinations") 
+    {
+      let printers = new Array;
+      for (let data of e.detail) if (!/pdf/i.test(data.value) && !/fax/i.test(data.value) && !/microsoft xps/i.test(data.value) && !/onenote/i.test(data.value)) printers.push(data);
+      
+      this.setOptions(printers);
     }
   }
 }

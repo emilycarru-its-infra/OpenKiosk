@@ -7,5 +7,5 @@ FINAL_TARGET_FILES.defaults.settings["security-state"] += [
     "onecrl.json",
 ]
 
-if CONFIG["MOZ_BUILD_APP"] == "browser":
+if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
     DIST_SUBDIR = "browser"

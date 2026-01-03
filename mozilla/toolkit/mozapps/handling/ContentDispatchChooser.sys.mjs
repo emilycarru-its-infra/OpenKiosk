@@ -45,6 +45,21 @@ export class nsContentDispatchChooser {
     aBrowsingContext,
     aTriggeredExternally = false
   ) {
+
+    try
+    {
+      // OPENKIOSK BLOCK OPEN EXTERNAL APP
+      let pref = "openkiosk.admin.externalapps.enabled";
+
+      if (!Services.prefs.getBoolPref(pref)) 
+      {
+        let m = "Launching external apps currently BLOCKED...";
+        Cc["@mozilla.org/consoleservice;1"].getService(Ci.nsIConsoleService).logStringMessage(m);
+        return;
+      }
+    }
+      catch (e) {}
+
     let callerHasPermission = this._hasProtocolHandlerPermission(
       aHandler.type,
       aPrincipal

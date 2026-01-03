@@ -261,6 +261,9 @@ class PlacesViewBase {
       let menu = BookmarkingUI.buildBookmarksToolbarSubmenu(bookmarksToolbar);
       aPopup.insertBefore(menu, manageBookmarksMenu);
 
+      // OPENKIOSK
+      menu.hidden = menu.collapsed = true;
+
       if (
         aPopup.triggerNode.id === "OtherBookmarks" ||
         aPopup.triggerNode.id === "PlacesChevron" ||

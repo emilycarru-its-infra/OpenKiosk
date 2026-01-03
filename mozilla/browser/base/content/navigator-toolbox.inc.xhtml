@@ -96,7 +96,7 @@
                          onkeypress="gTabsPanel.showAllTabsPanel(event, 'alltabs-button');"
                          onmousedown="gTabsPanel.showAllTabsPanel(event, 'alltabs-button');"
                          data-l10n-id="tabs-toolbar-list-all-tabs"
-                         removable="false"/>
+                         removable="true"/>
         </hbox>
       </hbox>
 
@@ -466,6 +466,9 @@
                      onmousedown="gUnifiedExtensions.togglePanel(event)"
                      overflows="false"
                      removable="false"/>
+
+#include ../../../openkiosk/base/content/openkiosk-buttons.inc
+
     </hbox>
 
     <toolbarbutton id="nav-bar-overflow-button"

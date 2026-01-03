@@ -635,6 +635,16 @@ const PDFViewerApplication = {
   _nimbusDataPromise: null,
   async initialize(appConfig) {
     this.preferences = this.externalServices.createPreferences();
+
+    // OPENKIOSK
+    let b = document.getElementById("download");
+    if (OpenKiosk.PDFDownloadEnabled) b.classList.remove("ok-button-hidden");
+    else b.classList.add("ok-button-hidden");
+
+    b = document.getElementById("home");
+    if (OpenKiosk.fullscreenEnabled) b.classList.remove("ok-button-hidden");
+    else b.classList.add("ok-button-hidden");
+
     this.appConfig = appConfig;
     await this._initializeOptions();
     this._forceCssTheme();

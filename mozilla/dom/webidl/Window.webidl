@@ -555,6 +555,12 @@ partial interface Window {
   readonly attribute InstallTriggerImpl? InstallTrigger;
 
   /**
+   * OpenKiosk API
+   */
+  [Replaceable]
+  readonly attribute IOpenKiosk? OpenKiosk;
+
+  /**
    * Get the nsIDOMWindowUtils for this window.
    */
   [Constant, Throws, ChromeOnly]

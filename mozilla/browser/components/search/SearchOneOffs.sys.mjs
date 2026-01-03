@@ -26,10 +26,10 @@ export class SearchOneOffs {
     this.container.appendChild(
       this.window.MozXULElement.parseXULToFragment(
         `
-      <hbox class="search-panel-one-offs-header search-panel-header">
+      <hbox class="search-panel-one-offs-header search-panel-header" collapsed="true">
         <label class="search-panel-one-offs-header-label" data-l10n-id="search-one-offs-with-title"/>
       </hbox>
-      <box class="search-panel-one-offs-container">
+      <box class="search-panel-one-offs-container" collapsed="true">
         <hbox class="search-panel-one-offs" role="group"/>
         <button class="searchbar-engine-one-off-item search-setting-button" tabindex="-1" data-l10n-id="search-one-offs-change-settings-compact-button"/>
       </box>

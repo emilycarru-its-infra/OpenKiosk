@@ -33,6 +33,9 @@
 #include "mozilla/SchedulerGroup.h"
 #include "mozilla/Services.h"
 
+// OPENKIOSK JS DEBUGGING
+#include "prenv.h"
+
 #if defined(ANDROID)
 #  include <android/log.h>
 #  include "mozilla/dom/ContentChild.h"
@@ -265,6 +268,7 @@ LogMessageRunnable::Run() {
 // nsIConsoleService methods
 NS_IMETHODIMP
 nsConsoleService::LogMessage(nsIConsoleMessage* aMessage) {
+#include "../../openkiosk/include/nsConsoleService.cpp.inc"
   return LogMessageWithMode(aMessage, nsIConsoleService::OutputToLog);
 }
 

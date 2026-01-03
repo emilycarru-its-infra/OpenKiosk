@@ -4,13 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-CONFIGURE_SUBST_FILES += ["installer/Makefile"]
-
 SPHINX_TREES["/browser"] = "docs"
-
-EXTRA_COMPONENTS += [
-    "l10n-registry.manifest",
-]
 
 DIRS += [
     "actors",
@@ -25,19 +19,9 @@ DIRS += [
     "branding",
 ]
 
-DIRS += [
-    "app",
-]
-
-if CONFIG["MAKENSISU"]:
-    DIRS += ["installer/windows"]
-
 TEST_DIRS += [
     "tools/mozscreenshots",
 ]
-
-DIST_SUBDIR = "browser"
-export("DIST_SUBDIR")
 
 # These defines are read in firefox.js
 DEFINES["APP_VERSION"] = CONFIG["MOZ_APP_VERSION"]
@@ -53,13 +37,6 @@ if CONFIG["MOZ_UPDATE_AGENT"]:
 
 if CONFIG["MOZ_ARTIFACT_BUILDS"]:
     DEFINES["MOZ_ARTIFACT_BUILDS"] = True
-
-# These files are specified in this moz.build to pick up DIST_SUBDIR as set in
-# this directory, which is un-set in browser/app.
-JS_PREFERENCE_PP_FILES += [
-    "app/profile/firefox.js",
-]
-FINAL_TARGET_FILES.defaults += ["app/permissions"]
 
 with Files("**"):
     BUG_COMPONENT = ("Firefox", "General")

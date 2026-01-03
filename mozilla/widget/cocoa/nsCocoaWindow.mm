@@ -3176,6 +3176,9 @@ void nsCocoaWindow::CocoaWindowDidResize() {
 }
 
 - (void)sendToplevelDeactivateEvents {
+
+#include "../../openkiosk/include/nsCocoaWindow.mm.inc"
+
   if (mToplevelActiveState && mGeckoWindow) {
     mGeckoWindow->CocoaSendToplevelDeactivateEvents();
     mToplevelActiveState = false;

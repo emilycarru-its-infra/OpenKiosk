@@ -21,11 +21,10 @@
  */
 class nsAppShell : public nsBaseAppShell {
  public:
-  nsAppShell()
-      : mEventWnd(nullptr),
-        mNativeCallbackPending(false),
-        mLastNativeEventScheduledMutex(
-            "nsAppShell::mLastNativeEventScheduledMutex") {}
+  // OPENKIOSK
+  nsAppShell();
+  void OKCleanUp();
+
   typedef mozilla::TimeStamp TimeStamp;
   typedef mozilla::Mutex Mutex;
 

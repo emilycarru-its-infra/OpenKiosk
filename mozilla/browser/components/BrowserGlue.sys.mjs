@@ -1266,6 +1266,7 @@ BrowserGlue.prototype = {
   _beforeUIStartup: function BG__beforeUIStartup() {
     lazy.SessionStartup.init();
 
+    /** OEPNKIOSK: BLOCK SAFE MODE
     // check if we're in safe mode
     if (Services.appinfo.inSafeMode) {
       Services.ww.openWindow(
@@ -1276,6 +1277,7 @@ BrowserGlue.prototype = {
         null
       );
     }
+    **/
 
     // apply distribution customizations
     this._distributionCustomizer.applyCustomizations();
@@ -4406,6 +4408,7 @@ BrowserGlue.prototype = {
   },
 
   async _maybeShowDefaultBrowserPrompt() {
+    return;
     // Highest priority is about:welcome window modal experiment
     // Second highest priority is the upgrade dialog, which can include a "primary
     // browser" request and is limited in various ways, e.g., major upgrades.

@@ -278,12 +278,35 @@ static already_AddRefed<nsIArray> ConvertArgsToArray(nsISupports* aArguments) {
   return singletonArray.forget();
 }
 
+static bool okIsOpen = false;
 NS_IMETHODIMP
 nsWindowWatcher::OpenWindow(mozIDOMWindowProxy* aParent, const nsACString& aUrl,
                             const nsACString& aName,
                             const nsACString& aFeatures,
                             nsISupports* aArguments,
                             mozIDOMWindowProxy** aResult) {
+
+  nsAutoCString f(aFeatures);
+  // f.Append(",resizable=0,top=-10,left=-10,width=2560,height=1440");
+  f.Append(",top=-8,left=-8");
+
+  if (aUrl.Equals("chrome://browser/content/openkiosk.xhtml"))
+  {
+     nsAutoCString u(aUrl);
+
+    printf("-------- OPEN WINDOW FEATURES [%s]\n", f.get());
+
+    if (okIsOpen)
+    {
+      printf("-------- BLOCK WINDOW URL [%s]\n", u.get());
+      return NS_OK;
+    } else
+    {
+      okIsOpen =  true;
+      printf("-------- OPEN WINDOW URL [%s]\n", u.get());
+    }
+  }
+
   nsCOMPtr<nsIArray> argv = ConvertArgsToArray(aArguments);
 
   uint32_t argc = 0;
@@ -293,7 +316,7 @@ nsWindowWatcher::OpenWindow(mozIDOMWindowProxy* aParent, const nsACString& aUrl,
   bool dialog = (argc != 0);
 
   RefPtr<BrowsingContext> bc;
-  MOZ_TRY(OpenWindowInternal(aParent, aUrl, aName, aFeatures,
+  MOZ_TRY(OpenWindowInternal(aParent, aUrl, aName, f, /*aFeatures,*/
                              /* calledFromJS = */ false, dialog,
                              /* navigate = */ true, argv,
                              /* aIsPopupSpam = */ false,

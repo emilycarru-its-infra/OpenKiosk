@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-if CONFIG["MOZ_BUILD_APP"] == "browser":
+if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
     DEFINES["MOZ_BUILD_APP_IS_BROWSER"] = True
 
 MOCHITEST_MANIFESTS += ["test/mochitest/mochitest.ini"]
@@ -71,7 +71,7 @@ if CONFIG["OS_TARGET"] == "WINNT":
         "OSCrypto_win.sys.mjs",
     ]
 
-if CONFIG["MOZ_BUILD_APP"] == "browser" or CONFIG["MOZ_SUITE"]:
+if CONFIG["MOZ_BUILD_APP"] == "openkiosk" or CONFIG["MOZ_SUITE"]:
     EXTRA_JS_MODULES += [
         "LoginManagerContextMenu.sys.mjs",
     ]

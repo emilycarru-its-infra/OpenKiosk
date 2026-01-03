@@ -519,6 +519,8 @@ function internalPersist(persistArgs) {
       persistArgs.isPrivate
     );
   }
+
+  OpenKioskUtils.openDownloadsFolder(persistArgs.targetFile.parent);
 }
 
 /**

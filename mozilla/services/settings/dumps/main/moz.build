@@ -21,5 +21,5 @@ FINAL_TARGET_FILES.defaults.settings.main += [
     "websites-with-shared-credential-backends.json",
 ]
 
-if CONFIG["MOZ_BUILD_APP"] == "browser":
+if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
     DIST_SUBDIR = "browser"

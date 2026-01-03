@@ -36,7 +36,7 @@ EXTRA_JS_MODULES += [
 # to Firefox here: that module could be generalized to toolkit/, or the
 # functionality rewritten to consume App Update Service directly.
 if (
-    CONFIG["MOZ_BUILD_APP"] == "browser"
+    CONFIG["MOZ_BUILD_APP"] == "openkiosk"
     and CONFIG["MOZ_BACKGROUNDTASKS"]
     and CONFIG["MOZ_UPDATE_AGENT"]
 ):

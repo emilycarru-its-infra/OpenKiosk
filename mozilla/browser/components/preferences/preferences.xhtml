@@ -12,8 +12,16 @@
 <?xml-stylesheet href="chrome://browser/skin/preferences/search.css"?>
 <?xml-stylesheet href="chrome://browser/skin/preferences/containers.css"?>
 <?xml-stylesheet href="chrome://browser/skin/preferences/privacy.css"?>
+<?xml-stylesheet href="chrome://openkiosk/skin/preferences.css"?>
 
-<!DOCTYPE html>
+<!DOCTYPE html [
+<!ENTITY % openkioskDTD SYSTEM "chrome://openkiosk/locale/preferences.dtd">
+%openkioskDTD;
+<!ENTITY % okaboutDTD SYSTEM "chrome://openkiosk/locale/about.dtd">
+%okaboutDTD;
+<!ENTITY % okbrandDTD SYSTEM "chrome://branding/locale/brand.dtd">
+%okbrandDTD;
+]>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
         xmlns:html="http://www.w3.org/1999/xhtml"
@@ -166,6 +174,7 @@
           <image class="category-icon"/>
           <label class="category-name" flex="1" data-l10n-id="more-from-moz-title"></label>
         </richlistitem>
+#include ../../../openkiosk/base/content/preferences.inc
       </richlistbox>
 
       <spacer flex="1"/>
@@ -216,6 +225,7 @@
 #include sync.inc.xhtml
 #include experimental.inc.xhtml
 #include moreFromMozilla.inc.xhtml
+#include ../../../openkiosk/base/content/preferences.inc.xhtml
         </vbox>
       </vbox>
     </vbox>

@@ -1549,6 +1549,7 @@ var gBrowserInit = {
         document.documentElement.setAttribute("sizemode", "maximized");
       }
     }
+/****** OPENKIOSK BLOCK HIDE MENUBAR MENUITEM
     if (AppConstants.MENUBAR_CAN_AUTOHIDE) {
       const toolbarMenubar = document.getElementById("toolbar-menubar");
       // set a default value
@@ -1561,6 +1562,7 @@ var gBrowserInit = {
       );
       toolbarMenubar.setAttribute("data-l10n-attrs", "toolbarname");
     }
+******/
 
     // Run menubar initialization first, to avoid TabsInTitlebar code picking
     // up mutations from it and causing a reflow.
@@ -3593,6 +3595,7 @@ var homeButtonObserver = {
 };
 
 function openHomeDialog(aURL) {
+  if (!OpenKioskAdmin.adminMode) return;
   var promptTitle = gNavigatorBundle.getString("droponhometitle");
   var promptMsg;
   if (aURL.includes("|")) {
@@ -6395,6 +6398,7 @@ nsBrowserAccess.prototype = {
 };
 
 function showFullScreenViewContextMenuItems(popup) {
+/****
   for (let node of popup.querySelectorAll('[contexttype="fullscreen"]')) {
     node.hidden = !window.fullScreen;
   }
@@ -6402,6 +6406,7 @@ function showFullScreenViewContextMenuItems(popup) {
   if (autoHide) {
     FullScreen.updateAutohideMenuitem(autoHide);
   }
+****/
 }
 
 function onViewToolbarsPopupShowing(aEvent, aInsertPoint) {
@@ -6427,8 +6432,10 @@ function onViewToolbarsPopupShowing(aEvent, aInsertPoint) {
     }
 
     if (toolbar.id == "PersonalToolbar") {
+/****
       let menu = BookmarkingUI.buildBookmarksToolbarSubmenu(toolbar);
       popup.insertBefore(menu, firstMenuItem);
+****/
     } else {
       let menuItem = document.createXULElement("menuitem");
       menuItem.setAttribute("id", "toggle_" + toolbar.id);

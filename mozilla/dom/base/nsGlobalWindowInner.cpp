@@ -131,6 +131,7 @@
 #include "mozilla/dom/ImageBitmap.h"
 #include "mozilla/dom/ImageBitmapSource.h"
 #include "mozilla/dom/InstallTriggerBinding.h"
+#include "mozilla/dom/OpenKioskBinding.h"
 #include "mozilla/dom/IntlUtils.h"
 #include "mozilla/dom/JSExecutionContext.h"
 #include "mozilla/dom/LSObject.h"
@@ -1265,6 +1266,7 @@ void nsGlobalWindowInner::FreeInnerObjects() {
 
   mExternal = nullptr;
   mInstallTrigger = nullptr;
+  mOpenKiosk = nullptr;
 
   if (mLocalStorage) {
     mLocalStorage->Disconnect();
@@ -1442,6 +1444,7 @@ NS_IMPL_CYCLE_COLLECTION_TRAVERSE_BEGIN_INTERNAL(nsGlobalWindowInner)
   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mPaintWorklet)
   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mExternal)
   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mInstallTrigger)
+  NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mOpenKiosk)
   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mIntlUtils)
   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mVisualViewport)
 
@@ -1553,6 +1556,7 @@ NS_IMPL_CYCLE_COLLECTION_UNLINK_BEGIN(nsGlobalWindowInner)
   NS_IMPL_CYCLE_COLLECTION_UNLINK(mPaintWorklet)
   NS_IMPL_CYCLE_COLLECTION_UNLINK(mExternal)
   NS_IMPL_CYCLE_COLLECTION_UNLINK(mInstallTrigger)
+  NS_IMPL_CYCLE_COLLECTION_UNLINK(mOpenKiosk)
   NS_IMPL_CYCLE_COLLECTION_UNLINK(mIntlUtils)
   NS_IMPL_CYCLE_COLLECTION_UNLINK(mVisualViewport)
 
@@ -2559,6 +2563,20 @@ InstallTriggerImpl* nsGlobalWindowInner::GetInstallTrigger() {
   }
 
   return mInstallTrigger;
+}
+
+IOpenKiosk* nsGlobalWindowInner::GetOpenKiosk() {
+  if (!mOpenKiosk) {
+    ErrorResult rv;
+    mOpenKiosk = ConstructJSImplementation<IOpenKiosk>(
+        "@mozdevgroup.com/openkioskdom;1", this, rv);
+    if (rv.Failed()) {
+      rv.SuppressException();
+      return nullptr;
+    }
+  }
+
+  return mOpenKiosk;
 }
 
 nsIDOMWindowUtils* nsGlobalWindowInner::GetWindowUtils(ErrorResult& aRv) {

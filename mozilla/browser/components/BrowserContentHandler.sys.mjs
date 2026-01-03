@@ -807,7 +807,10 @@ nsBrowserContentHandler.prototype = {
       return overridePage + "|" + startPage;
     }
 
-    return overridePage || startPage || "about:blank";
+    if (Services.prefs.getBoolPref("openkiosk.attractscreen.enabled")) 
+      startPage = Services.prefs.getCharPref("openkiosk.attractscreen.url") || Services.prefs.getCharPref("openkiosk.attractscreen.url.default");
+
+    return overridePage || startPage || Services.prefs.getCharPref("browser.startup.homepage");
   },
 
   mFeatures: null,

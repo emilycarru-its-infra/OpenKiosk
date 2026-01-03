@@ -9,7 +9,7 @@ SPHINX_TREES["addon-manager"] = "docs"
 with Files("docs/**"):
     SCHEDULES.exclusive = ["docs"]
 
-if CONFIG["MOZ_BUILD_APP"] == "browser":
+if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
     DEFINES["MOZ_BUILD_APP_IS_BROWSER"] = True
 
 if CONFIG["MOZ_BUILD_APP"] == "mobile/android":
@@ -32,7 +32,7 @@ GENERATED_FILES += [built_in_addons]
 manifest = GENERATED_FILES[built_in_addons]
 manifest.script = "gen_built_in_addons.py"
 
-if CONFIG["MOZ_BUILD_APP"] == "browser":
+if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
     manifest.flags = ["--features=browser/features"]
 
     FINAL_TARGET_FILES.browser.chrome.browser.content.browser += [

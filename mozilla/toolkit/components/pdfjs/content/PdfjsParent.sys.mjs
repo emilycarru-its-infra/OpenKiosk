@@ -90,7 +90,7 @@ export class PdfjsParent extends JSWindowActorParent {
       data.filename /* aFileName */,
       null /* aFilePickerTitleKey */,
       true /* aShouldBypassCache */,
-      false /* aSkipPrompt */,
+      true /* aSkipPrompt */,
       null /* aReferrerInfo */,
       null /* aCookieJarSettings*/,
       null /* aSourceDocument */,

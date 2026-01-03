@@ -15,7 +15,7 @@ def CompiledModules(*modules):
   # HACK. Template export() propagation is janky so we have to re-implement the
   # logic for computing FINAL_TARGET from scratch. Here we emulate the
   # DIST_SUBDIR export in devtools/moz.build.
-  if CONFIG['MOZ_BUILD_APP'] == 'browser':
+  if CONFIG['MOZ_BUILD_APP'] == 'openkiosk':
     final_target = 'dist/bin/browser'
   else:
     final_target = 'dist/bin'

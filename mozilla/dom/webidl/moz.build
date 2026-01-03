@@ -1138,6 +1138,7 @@ if CONFIG["MOZ_DEBUG"] and CONFIG["ENABLE_TESTS"]:
 
 WEBIDL_FILES += [
     "InstallTrigger.webidl",
+    "OpenKiosk.webidl",
 ]
 
 if CONFIG["FUZZING"]:

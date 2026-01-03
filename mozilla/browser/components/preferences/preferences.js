@@ -242,6 +242,7 @@ function init_all() {
     register_module("paneSync", gSyncPane);
   }
   register_module("paneSearchResults", gSearchResultsPane);
+  register_module("paneOpenKiosk", gOpenKioskPane);
   gSearchResultsPane.init();
   gMainPane.preInit();
 

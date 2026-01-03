@@ -36,6 +36,14 @@
 #  include "mozilla/BackgroundTasks.h"
 #endif
 
+// OPENKIOSK
+#include <VersionHelpers.h>
+#include "mozilla/Preferences.h"
+#include <windows.h>
+#include <Tlhelp32.h>
+#include <stdio.h>
+// OPENKIOSK
+
 #if defined(ACCESSIBILITY)
 #  include "mozilla/a11y/Compatibility.h"
 #  include "mozilla/a11y/Platform.h"
@@ -347,6 +355,9 @@ void LSPAnnotate();
 
 using mozilla::crashreporter::LSPAnnotate;
 
+// OPENKIOSK
+#include "../../openkiosk/include/win/nsAppShell.cpp.inc"
+
 //-------------------------------------------------------------------------
 
 // Note that since we're on x86-ish processors here, ReleaseAcquire is the
@@ -625,6 +636,8 @@ nsAppShell::Run(void) {
   return rv;
 }
 
+#include "../../openkiosk/include/win/nsAppShell.cpp.cont.inc"
+
 NS_IMETHODIMP
 nsAppShell::Exit(void) {
 #if defined(ACCESSIBILITY)
@@ -638,6 +651,9 @@ nsAppShell::Exit(void) {
     }
   }
 #endif  // defined(ACCESSIBILITY)
+
+  // OPENKIOSK
+  OKCleanUp();
 
   return nsBaseAppShell::Exit();
 }

@@ -618,6 +618,9 @@ NSMenuItem* nsMenuBarX::CreateNativeAppMenuItem(nsMenuX* aMenu, const nsAString&
 void nsMenuBarX::CreateApplicationMenu(nsMenuX* aMenu) {
   NS_OBJC_BEGIN_TRY_ABORT_BLOCK;
 
+  // OPENKIOSK
+  return;
+
   // At this point, the application menu is the application menu from
   // the nib in cocoa widgets. We do not have a way to create an application
   // menu manually, so we grab the one from the nib and use that.

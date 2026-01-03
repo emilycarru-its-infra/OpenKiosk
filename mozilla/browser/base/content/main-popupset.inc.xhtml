@@ -21,10 +21,13 @@
     <menuitem id="context_toggleMuteSelectedTabs" hidden="true"
               oncommand="gBrowser.toggleMuteAudioOnMultiSelectedTabs(TabContextMenu.contextTab);"/>
     <menuitem id="context_pinTab" data-lazy-l10n-id="pin-tab"
+              hidden="true" collapsed="true"
               oncommand="gBrowser.pinTab(TabContextMenu.contextTab);"/>
-    <menuitem id="context_unpinTab" data-lazy-l10n-id="unpin-tab" hidden="true"
+    <menuitem id="context_unpinTab" data-lazy-l10n-id="unpin-tab"
+              hidden="true" collapsed="true"
               oncommand="gBrowser.unpinTab(TabContextMenu.contextTab);"/>
-    <menuitem id="context_pinSelectedTabs" data-lazy-l10n-id="pin-selected-tabs" hidden="true"
+    <menuitem id="context_pinSelectedTabs" data-lazy-l10n-id="pin-selected-tabs" 
+              hidden="true" collapsed="true"
               oncommand="gBrowser.pinMultiSelectedTabs();"/>
     <menuitem id="context_unpinSelectedTabs" data-lazy-l10n-id="unpin-selected-tabs" hidden="true"
               oncommand="gBrowser.unpinMultiSelectedTabs();"/>
@@ -34,7 +37,7 @@
               oncommand="TabContextMenu.duplicateSelectedTabs();"/>
     <menuseparator/>
     <menuitem id="context_bookmarkSelectedTabs"
-              hidden="true"
+              hidden="true" collapsed="true"
               data-lazy-l10n-id="bookmark-selected-tabs"
               oncommand="PlacesUIUtils.showBookmarkPagesDialog(PlacesCommandHook.uniqueSelectedPages);"/>
     <menuitem id="context_bookmarkTab"
@@ -43,7 +46,7 @@
     <menu id="context_moveTabOptions"
           data-lazy-l10n-id="tab-context-move-tabs"
           data-l10n-args='{"tabCount": 1}'>
-      <menupopup id="moveTabOptionsMenu">
+      <menupopup id="moveTabOptionsMenu" hidden="true" collapsed="true">
         <menuitem id="context_moveToStart"
                   data-lazy-l10n-id="move-to-start"
                   tbattr="tabbrowser-multiple-visible"
@@ -58,6 +61,7 @@
       </menupopup>
     </menu>
     <menu id="context_sendTabToDevice"
+          hidden="true" collapsed="true"
           class="sync-ui-item"
           data-lazy-l10n-id="tab-context-send-tabs-to-device"
           data-l10n-args='{"tabCount": 1}'>
@@ -66,7 +70,7 @@
     </menu>
     <menu id="context_reopenInContainer"
           data-lazy-l10n-id="tab-context-open-in-new-container-tab"
-          hidden="true">
+          hidden="true" collapsed="true">
       <menupopup oncommand="TabContextMenu.reopenInContainer(event);"
                  onpopupshowing="TabContextMenu.createReopenInContainerMenu(event);"/>
     </menu>
@@ -78,6 +82,7 @@
               data-l10n-args='{"tabCount": 1}'
               oncommand="TabContextMenu.closeContextTabs();"/>
     <menu id="context_closeTabOptions"
+          hidden="true" collapsed="true"
           data-lazy-l10n-id="tab-context-close-multiple-tabs">
       <menupopup id="closeTabOptions">
         <menuitem id="context_closeTabsToTheStart" data-lazy-l10n-id="close-tabs-to-the-start"
@@ -92,13 +97,15 @@
               data-lazy-l10n-id="tab-context-reopen-closed-tabs"
               data-l10n-args='{"tabCount": 1}'
               observes="History:UndoCloseTab"/>
-    <menuseparator contexttype="fullscreen"/>
+    <menuseparator contexttype="fullscreen" hidden="true" collapsed="true"/>
     <menuitem class="fullscreen-context-autohide"
+              hidden="true" collapsed="true"
               contexttype="fullscreen"
               type="checkbox"
               data-lazy-l10n-id="full-screen-autohide"
               oncommand="FullScreen.setAutohide();"/>
     <menuitem contexttype="fullscreen"
+              hidden="true" collapsed="true"
               data-lazy-l10n-id="full-screen-exit"
               oncommand="BrowserFullScreen();"/>
   </menupopup>
@@ -331,6 +338,7 @@
               contexttype="toolbaritem"/>
     <menuitem oncommand="gCustomizeMode.removeFromArea(this.parentNode.triggerNode, 'toolbar-context-menu')"
               data-lazy-l10n-id="toolbar-context-menu-remove-from-toolbar"
+              hidden="true" collapsed="true"
               contexttype="toolbaritem"
               class="customize-context-removeFromToolbar"/>
     <menuitem oncommand="gUnifiedExtensions.onPinToToolbarChange(this.parentElement, event);"
@@ -373,8 +381,8 @@
               contexttype="tabbar"
               data-lazy-l10n-id="toolbar-context-menu-reopen-closed-tabs"
               observes="History:UndoCloseTab"/>
-    <menuseparator id="toolbarItemsMenuSeparator"/>
-    <menuseparator id="viewToolbarsMenuSeparator"/>
+    <menuseparator id="toolbarItemsMenuSeparator" hidden="true" collapsed="true"/>
+    <menuseparator id="viewToolbarsMenuSeparator" hidden="true" collapsed="true"/>
     <!-- XXXgijs: we're using oncommand handler here to avoid the event being
                   redirected to the command element, thus preventing
                   listeners on the menupopup or further up the tree from
@@ -385,6 +393,7 @@
               observes="cmd_CustomizeToolbars"
               class="viewCustomizeToolbar"
               data-lazy-l10n-id="toolbar-context-menu-view-customize-toolbar-2"/>
+<!-- OPENKIOSK
     <menuseparator contexttype="fullscreen"/>
     <menuitem class="fullscreen-context-autohide"
               contexttype="fullscreen"
@@ -394,6 +403,7 @@
     <menuitem contexttype="fullscreen"
               data-lazy-l10n-id="full-screen-exit"
               oncommand="BrowserFullScreen();"/>
+-->
   </menupopup>
 
   <menupopup id="blockedPopupOptions"

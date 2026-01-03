@@ -7,7 +7,7 @@
 with Files("**"):
     BUG_COMPONENT = ("Core", "DOM: Navigation")
 
-if CONFIG["MOZ_BUILD_APP"] == "browser":
+if CONFIG["MOZ_BUILD_APP"] == "openkiosk":
     DEFINES["MOZ_BUILD_APP_IS_BROWSER"] = True
 
 DIRS += [

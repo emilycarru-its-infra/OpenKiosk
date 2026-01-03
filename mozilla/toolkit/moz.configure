@@ -143,7 +143,7 @@ set_define("MOZ_PROFILER_MEMORY", gecko_profiler_define)
     when=artifact_builds | depends(when="--enable-replace-malloc")(lambda: True),
 )
 def dmd_default(debug, milestone, build_project):
-    return bool(build_project == "browser" and (debug or milestone.is_nightly))
+    return bool(build_project == "openkiosk" and (debug or milestone.is_nightly))
 
 
 option(
@@ -844,7 +844,7 @@ def eme_choices(target, wmf):
 # on aarch64 Windows.
 @depends(build_project, eme_choices, target)
 def eme_default(build_project, choices, target):
-    if build_project == "browser":
+    if build_project == "openkiosk":
         if target.kernel != "WINNT" or target.cpu != "aarch64":
             return choices
 
@@ -1781,7 +1781,7 @@ set_define("MOZ_LAUNCHER_PROCESS", launcher)
 
 @depends(build_project, target, "--enable-compile-environment")
 def check_for_llvm_dlltool(build_project, target, compile_environment):
-    if build_project != "browser":
+    if build_project != "openkiosk":
         return
 
     if target.os != "WINNT":
@@ -1842,7 +1842,7 @@ def bundled_fonts_default(target):
 
 @depends(build_project)
 def allow_bundled_fonts(project):
-    return project == "browser" or project == "comm/mail"
+    return project == "openkiosk" or project == "comm/mail"
 
 
 option(
@@ -2669,7 +2669,7 @@ check_prog(
 # Fork server
 @depends(target, build_project)
 def forkserver_default(target, build_project):
-    return build_project == "browser" and (
+    return build_project == "openkiosk" and (
         (target.os == "GNU" and target.kernel == "Linux")
         or target.os == "FreeBSD"
         or target.os == "OpenBSD"

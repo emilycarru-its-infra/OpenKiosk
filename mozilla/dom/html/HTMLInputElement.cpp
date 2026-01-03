@@ -767,6 +767,12 @@ nsresult HTMLInputElement::InitColorPicker() {
 nsresult HTMLInputElement::InitFilePicker(FilePickerType aType) {
   MOZ_ASSERT(IsMutable());
 
+if (!Preferences::GetBool("openkiosk.file.upload.enabled"))
+ {
+   printf("******** FILE UPLOAD DISABLED ********\n");
+   return NS_OK;
+ }
+
   if (mPickerRunning) {
     NS_WARNING("Just one nsIFilePicker is allowed");
     return NS_ERROR_FAILURE;
