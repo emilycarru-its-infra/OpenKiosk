@@ -212,3 +212,5 @@ tools/esmify/package-lock.json
 
 # Ignore automatically generated mots documentation
 docs/mots/index.rst
+/mozilla/openkiosk
+/opt-openkiosk-i686-pc-mingw32
