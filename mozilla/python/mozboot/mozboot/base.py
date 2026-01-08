@@ -709,7 +709,7 @@ class BaseBootstrapper(object):
                     str(rustup_init),
                     "-y",
                     "--default-toolchain",
-                    "stable",
+                    MINIMUM_RUST_VERSION,
                     "--default-host",
                     platform,
                     "--component",
