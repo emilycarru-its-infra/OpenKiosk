@@ -42,7 +42,7 @@ trap cleanup EXIT
 if [ -z "$DMG" ]; then
   DMG="$STAGE/vendor.dmg"
   echo "==> downloading $VENDOR_DMG_URL"
-  curl -fL --progress-bar -o "$DMG" "$VENDOR_DMG_URL"
+  curl -fL -sS -o "$DMG" "$VENDOR_DMG_URL"
 fi
 
 echo "==> extracting OpenKiosk.app"
@@ -60,7 +60,7 @@ cp "$CFG" "$STAGE/OpenKiosk.app/Contents/Resources/openkiosk.cfg"
 # Writing into the bundle breaks the vendor's seal, so everything is signed again below.
 # Clear extended attributes first: a stale quarantine or resource-fork xattr makes
 # codesign fail on some of the nested binaries.
-xattr -cr "$STAGE/OpenKiosk.app"
+find "$STAGE/OpenKiosk.app" -print0 | xargs -0 xattr -c 2>/dev/null || true
 
 echo "==> re-signing as $SIGN_IDENTITY"
 ENTITLEMENTS="$FORK_ROOT/mozilla/security/mac/hardenedruntime/browser.production.entitlements.xml"
